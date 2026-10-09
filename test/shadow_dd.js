@@ -11,7 +11,11 @@ const ref = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'geodesi
 const M = 1, RABS = GE.R_CUT;
 const { dd, add, mul, div, neg } = D;
 const L5 = ref.circular[1].L;
-const [r0d, L] = CASE === 'r4_inward' ? [4 - 1e-4, 4] : [5 - 1e-4, L5];
+// step 4 addition: report-only off-peak case r=8, L=3.5. E^2 = Vmax(1+1e-4) (static r=8 launch, rdot=0, is bound: periapsis 5.97), inward start rdot = -sqrt(E^2 - V^2(8))
+const V2m = (r, L_) => (1 - 2 / r) * (1 + L_ * L_ / (r * r));
+const OFF = CASE === 'r8_L3p5';
+const OFF_E = OFF ? Math.sqrt(V2m(5.25, 3.5) * (1 + 1e-4)) : undefined, OFF_V0 = OFF ? -Math.sqrt(OFF_E * OFF_E - V2m(8, 3.5)) : 0;
+const [r0d, L] = CASE === 'r4_inward' ? [4 - 1e-4, 4] : (OFF ? [8, 3.5] : [5 - 1e-4, L5]);
 const sc = (a, c) => mul(a, dd(c));
 const hi = (a) => a[0];
 function accDD(r) { const inv = div(dd(1), r), inv2 = mul(inv, inv), inv3 = mul(inv2, inv), inv4 = mul(inv2, inv2), L2 = mul(dd(L), dd(L));
@@ -51,10 +55,10 @@ function stepD(r0, v0, h) {
 }
 
 function run() {
-  const eng = GE.launchState('massive', { r: r0d, rdot: 0, L, eta: ETA, method: 'rk4' }); // default rule r32+L
+  const eng = GE.launchState('massive', OFF ? { r: r0d, rdot: OFF_V0, L, E: OFF_E, eta: ETA, method: 'rk4' } : { r: r0d, rdot: 0, L, eta: ETA, method: 'rk4' }); // default rule r32+L
   if (GE.getStepRule() !== 'r32+L') throw new Error('engine default rule is not r32+L');
   const E = eng.E;
-  let S = { r: dd(r0d), v: dd(0), p: dd(0) }; let tau = 0;
+  let S = { r: dd(r0d), v: dd(OFF ? OFF_V0 : 0), p: dd(0) }; let tau = 0;
   const dec = {}, lim = {}, ser = []; let n = 0, first = { shadow: null, bit64: null }, diag = null;
   const win = { n: 0, dr: 0, dv: 0, dp: 0, rmax: 0 };
   let prevEng = { r: eng.r, rdot: eng.rdot, phi: eng.phi }, landed = false;
