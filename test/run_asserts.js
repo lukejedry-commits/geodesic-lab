@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Geodesic Lab v1: headless runner for EVERY assert in geodesic-lab-spec/ASSERTS.md (sections A-H).
-// Usage: node test/run_asserts.js [--step step1_core] [--baseline path/to/previous/asserts.json] [--spec ../geodesic-lab-spec]
+// Usage: node test/run_asserts.js [--step step1_core] [--baseline path/to/previous/asserts.json] [--spec spec]  (default: ./spec, a verbatim copy of the frozen spec docs)
 // Prints, for every assert, the measured value next to its threshold and PASS/FAIL (table), writes
 // results/<step>/asserts.json (raw values), asserts.txt, series/*.json (for the plots). Exit code 1 on any FAIL.
 // Never overwrites: refuses to run if results/<step>/asserts.json exists.
@@ -11,7 +11,7 @@ const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
 const ROOT = path.join(__dirname, '..');
 const STEP = opt('step', 'step1_core');
-const SPEC = path.resolve(opt('spec', path.join(ROOT, '..', 'geodesic-lab-spec')));
+const SPEC = path.resolve(opt('spec', (fs.existsSync(path.join(ROOT, 'spec', 'ASSERTS.md')) ? path.join(ROOT, 'spec') : path.join(ROOT, '..', 'geodesic-lab-spec'))));
 const OUT = path.join(ROOT, 'results', STEP);
 if (fs.existsSync(path.join(OUT, 'asserts.json'))) { console.error('refusing to overwrite ' + OUT + '/asserts.json (use a new --step name)'); process.exit(2); }
 fs.mkdirSync(path.join(OUT, 'series'), { recursive: true });

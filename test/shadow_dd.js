@@ -7,7 +7,7 @@ const fs = require('fs'), path = require('path');
 const GE = require('../src/engine.js'), D = require('./dd.js');
 const args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
 const CASE = opt('case', 'r4_inward'), ETA = +opt('eta', '2e-4'), STEP = opt('step', 'step3_shadow');
-const ref = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'geodesic-lab-spec', 'ref_values.json'), 'utf8'));
+const ref = JSON.parse(fs.readFileSync((fs.existsSync(path.join(__dirname, '..', 'spec', 'ref_values.json')) ? path.join(__dirname, '..', 'spec', 'ref_values.json') : path.join(__dirname, '..', '..', 'geodesic-lab-spec', 'ref_values.json')), 'utf8'));
 const M = 1, RABS = GE.R_CUT;
 const { dd, add, mul, div, neg } = D;
 const L5 = ref.circular[1].L;
