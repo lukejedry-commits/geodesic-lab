@@ -1,6 +1,12 @@
 # Geodesic Lab: Schwarzschild geodesics (ENGINE MILESTONE)
 
-**Status: ENGINE MILESTONE. The UI is NOT started.** This repo holds the physics engine, the assert runner, the plots and the reports. Pages is not enabled.
+**Status: ENGINE MILESTONE + UI v1 (local build, step 6). Not published: GitHub Pages is not enabled.** This repo holds the physics engine (frozen), the assert runner, the plots and reports, and the UI (`index.html`, `style.css`, `ui/`).
+
+## UI (open `index.html`, or serve the folder: `python3 -m http.server`)
+Vanilla JS + Canvas2D, no frameworks, touch-friendly (44 px targets, pointer events). Top-down r,phi view (horizon 2M filled, photon sphere 3M dashed, ISCO 6M dotted), drag-to-aim launch for particles and light (local static observer; E, L round trip shown), V^2(r) panel with the E^2 level, Flamm surface ('shape of space at one instant') plus clock-rate colour map with the required caption, per-body proper time and Painleve-Gullstrand T, removal at r < 0.05M ('GR stops here'), Newtonian ghost (OFF by default), 2+1 cone mode, 8 presets from `spec/ref_values.json`, and the visible 'currently documented limit' note. All orbit state is 64-bit (engine bodies); the only `Float32Array` is a draw copy of screen coordinates in `ui/draw.js`.
+- Files: `ui/sim.js` (world, presets, launch), `ui/draw.js` (all drawing), `ui/cone.js`, `ui/app.js` (wiring), `ui/ref_values.js` (values copied from `spec/ref_values.json`).
+- Smoke test (headless Chrome, desktop + phone viewports): `NODE_PATH=/path/to/puppeteer-core/node_modules node test/ui_smoke.js --out results/<folder>`; results and screenshots in `results/step6_ui/`.
+- The engine was not changed in step 6: `src/engine.js` md5 df98e72a41a1727fbe1797ec1d8eae1a, assert suite re-run with 0 flips (125/147, `results/step6_ui/asserts.txt`).
 
 Schwarzschild metric, equatorial plane, G = c = 1, lengths in M. Massive particles and light rays; per-particle proper time; Painleve-Gullstrand time T (Schwarzschild `t` is never integrated); removal at r < 0.05M; 2+1 cone mode.
 
@@ -36,6 +42,6 @@ node test/shadow_dd.js --case r4_inward --eta 5e-4 --step my_shadow             
 ## Layout
 - `src/engine.js` engine (UMD: `require('./src/engine.js')` or `window.GeodesicEngine`), `src/analysis.js` test helpers
 - `test/` runner, double-double helper (`dd.js`, test code only), shadow integrator, report/plot scripts, `engine_browser.html`
-- `results/step1_core`, `step2_steprule`, `step3_shadow`, `step4_offpeak`, `step5_plunge_eta`: outputs, never overwritten
+- `results/step1_core`, `step2_steprule`, `step3_shadow`, `step4_offpeak`, `step5_plunge_eta`, `step6_ui` (UI smoke test, screenshots, asserts re-run): outputs, never overwritten
 - `docs/STEP_RULE_NOTE.md`, `spec/`
 - `.devcontainer/devcontainer.json`: Codespaces (node 20 + python3 + matplotlib)

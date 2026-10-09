@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Geodesic Lab: Schwarzschild orbits, light bending, horizon crossing</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>Geodesic Lab</h1>
+  <nav class="tabs" role="tablist">
+    <button id="tab-bh" class="tab on" role="tab">Black hole (Schwarzschild)</button>
+    <button id="tab-cone" class="tab" role="tab">2+1 cone (contrast)</button>
+  </nav>
+</header>
+
+<main id="bh">
+  <section class="stage">
+    <canvas id="main" aria-label="top-down view in r and phi"></canvas>
+    <div class="row bar">
+      <button id="pause" class="btn">Pause</button>
+      <button id="clear" class="btn">Clear</button>
+      <button id="zoomout" class="btn" aria-label="zoom out">&minus;</button>
+      <button id="zoomin" class="btn" aria-label="zoom in">+</button>
+      <label class="tog"><input type="checkbox" id="clockmap" checked> clock-rate colours</label>
+      <label class="tog"><input type="checkbox" id="ghost"> Newtonian ghost</label>
+    </div>
+    <div class="row bar">
+      <label class="grow">sim speed <input type="range" id="speed" min="-1.5" max="2.8" step="0.01" value="1"> <span id="speedv"></span> T/s</label>
+      <label class="grow">view radius <input type="range" id="view" min="0.5" max="3.3" step="0.01" value="1.2"> <span id="viewv"></span> M</label>
+    </div>
+    <p class="hint">Press on the picture where the particle starts, drag to aim, release to launch (a tap drops it from rest). Aim direction is measured by a local static observer (angle from the outward radial); for particles the arrow length is the local speed (an arrow of 45% of the picture width = 0.99 c). Or type numbers below.</p>
+  </section>
+
+  <section class="side">
+    <div class="card">
+      <h2>Presets</h2>
+      <div class="row"><select id="preset"></select><button id="runpreset" class="btn primary">Run preset</button></div>
+      <h2>Launch</h2>
+      <div class="row kind"><label><input type="radio" name="kind" value="massive" checked> particle</label><label><input type="radio" name="kind" value="light"> light ray</label></div>
+      <div class="grid4">
+        <label>r (M) <input type="number" id="in-r" value="10" step="0.5" min="2.01"></label>
+        <label>&phi; (deg) <input type="number" id="in-phi" value="0" step="5"></label>
+        <label id="lab-v">v (local, c) <input type="number" id="in-v" value="0.3" step="0.05" min="0" max="0.99"></label>
+        <label>angle &alpha; from outward (deg) <input type="number" id="in-alpha" value="90" step="5"></label>
+      </div>
+      <button id="launch" class="btn primary wide">Launch</button>
+    </div>
+
+    <div class="card" id="readout">
+      <h2>Selected body</h2>
+      <div id="ro"></div>
+    </div>
+
+    <div class="card">
+      <h2>Bodies</h2>
+      <table id="bodies"><thead><tr><th>name</th><th>proper time &tau;</th><th>PG time T</th><th>r (M)</th><th>status</th></tr></thead><tbody></tbody></table>
+    </div>
+
+    <div class="card">
+      <h2>Effective potential</h2>
+      <canvas id="pot" class="panel"></canvas>
+      <p id="potnote" class="small"></p>
+    </div>
+
+    <div class="card">
+      <h2>Space view and time view</h2>
+      <canvas id="flamm" class="panel"></canvas>
+      <canvas id="clock" class="panel strip"></canvas>
+      <p class="caption"><b>For slow motion, gravity comes almost entirely from slowed time, not curved space.</b> Slow orbits are mostly slowed time: the Newtonian limit is g<sub>tt</sub> &asymp; &minus;(1+2&Phi;), and spatial curvature enters only at order v&sup2;. A marble rolling on the surface of the left picture under a downward pull does <b>not</b> reproduce orbits. (In the weak field, light bending 4M/b is half from time, 2M/b, and half from space, 2M/b.)</p>
+    </div>
+
+    <div class="card limit" id="limit">
+      <h2>Currently documented limit</h2>
+      <p>Bodies are removed at r &lt; 0.05M (&ldquo;GR stops here&rdquo;). For plunges with angular momentum, conservation (the check |&#7765;&sup2; + V&sup2; &minus; E&sup2;| / E&sup2;) holds to only ~1e&minus;9 (not the 1e&minus;10 target) below r = 1M; measured up to 2.9e&minus;9 in the test suite. Broader wording is pending the final call. State is 64-bit; the engine is frozen.</p>
+    </div>
+  </section>
+</main>
+
+<main id="cone" hidden>
+  <section class="stage">
+    <div class="two"><canvas id="cone-cone" class="panel big"></canvas><canvas id="cone-plane" class="panel big"></canvas></div>
+    <div class="row bar">
+      <button id="cone-play" class="btn">Pause</button>
+      <label class="grow">mass m (G = 1) <input type="range" id="cone-m" min="0.02" max="0.12" step="0.002" value="0.08"> <span id="cone-mv"></span></label>
+      <label class="grow">ray offset b <input type="range" id="cone-b" min="1" max="6" step="0.1" value="3"> <span id="cone-bv"></span></label>
+    </div>
+  </section>
+  <section class="side">
+    <div class="card"><h2>2+1 gravity: no pull, only lensing</h2><div id="cone-ro"></div>
+      <p class="small">A point mass m in 2+1 gravity leaves space flat everywhere except at m. Cut a wedge of deficit angle &delta; = 8&pi;Gm and glue its edges: a cone. Geodesics are straight lines on the unrolled plane. Particles at rest stay at rest (green dots do not move), there is no horizon, no static-clock slowdown (clock rate 1 everywhere), no orbits. Two parallel rays passing either side of m cross: lensing without a pull. Range shown: &delta; &lt; &pi; so the rays meet the wedge ahead.</p></div>
+  </section>
+</main>
+
+<footer class="small">Engine milestone + UI (local build). Lengths in M (G = c = 1). r is the areal radius; screen distances are coordinate labels, not proper distances. Test particles and light only: they do not curve spacetime.</footer>
+
+<script src="src/engine.js"></script>
+<script src="ui/ref_values.js"></script>
+<script src="ui/sim.js"></script>
+<script src="ui/draw.js"></script>
+<script src="ui/cone.js"></script>
+<script src="ui/app.js"></script>
+</body>
+</html>
