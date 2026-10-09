@@ -12,7 +12,8 @@
   const R_CUT = 0.05;       // bodies are removed at r < R_CUT (M); "GR stops here"
   const FAR_R = 100;        // RK4 step is exactly proportional to r^(3/2) for r <= FAR_R; beyond, capped to ~ r (see hscale)
   const ETA_VERLET = 0.002; // shipped default: fixed dtau = eta * r_p^(3/2) / sqrt(M)
-  const ETA_RK4 = 0.0005;   // shipped default: h = eta * r^(3/2) / sqrt(M)
+  const ETA_RK4 = 0.0005;   // shipped default: h = eta * r^(3/2) / sqrt(M)  (light rays, and every RK4 body that is not an L != 0 plunge)
+  const ETA_RK4_PLUNGE = 0.0001; // default eta for L != 0 PLUNGES (NM + Validation ruling, step 5); see isPlunge
 
   // ---- potentials and accelerations (rddot = -0.5 dV^2/dr, written in cancelled closed form) --------
   const fOf = (r, M) => 1 - 2 * M / r;
@@ -56,6 +57,16 @@
     for (let i = 0; i < 200; i++) { const mid = 0.5 * (lo + hi); if (V2massive(mid, L, M) - E * E > 0) lo = mid; else hi = mid; }
     return 0.5 * (lo + hi);
   }
+  // 'Plunge' decided AT LAUNCH (massive, L != 0): the body moves inward (rdot < 0, or rdot = 0 with an inward force) and E^2 >= max V^2 over
+  // [r_cut, r0] (to 1e-12 relative), i.e. there is no inward turning point before the cutoff. The max is taken at r0 or at the barrier top rMax
+  // when rMax lies inside [r_cut, r0]. Used ONLY to pick the default eta; an explicit o.eta always wins.
+  function isPlunge(E, L, M, r0, rdot) {
+    if (L === 0) return false;
+    if (!(rdot < 0 || (rdot === 0 && accMassive(r0, L, M) < 0))) return false;
+    let mx = V2massive(r0, L, M); const c = criticalRadii(L, M);
+    if (c && c.rMax >= R_CUT && c.rMax <= r0) mx = Math.max(mx, V2massive(c.rMax, L, M));
+    return E * E >= mx * (1 - 1e-12);
+  }
   function makeBody(kind, o) {
     const M = o.M === undefined ? 1 : o.M;
     const b = { kind, M, r: o.r, phi: o.phi || 0, rdot: o.rdot, T: o.T0 || 0, par: o.par0 || 0, // par = proper time tau (massive) / affine lambda (light)
@@ -72,7 +83,7 @@
         b.h = b.eta * Math.pow(rp, 1.5) / Math.sqrt(M); // FIXED step, never changes
       }
     }
-    if (b.method === 'rk4') b.eta = o.eta === undefined ? ETA_RK4 : o.eta;
+    if (b.method === 'rk4') b.eta = o.eta !== undefined ? o.eta : (kind === 'massive' && isPlunge(o.E, o.L, M, o.r, o.rdot) ? ETA_RK4_PLUNGE : ETA_RK4);
     if (o.method === 'verlet' && b.method !== 'verlet') throw new Error('verlet requested for an orbit that is not bound outside the barrier');
     return b;
   }
@@ -196,6 +207,6 @@
     stepRest(p, dt) { p.x += p.vx * dt; p.y += p.vy * dt; return p; },
   };
 
-  return { R_CUT, FAR_R, ETA_VERLET, ETA_RK4, fOf, V2massive, V2light, accMassive, accLight, residual, dTdPar, hscale, setStepRule, getStepRule() { return STEP_RULE; }, criticalRadii, periapsisOf,
+  return { R_CUT, FAR_R, ETA_VERLET, ETA_RK4, ETA_RK4_PLUNGE, isPlunge, fOf, V2massive, V2light, accMassive, accLight, residual, dTdPar, hscale, setStepRule, getStepRule() { return STEP_RULE; }, criticalRadii, periapsisOf,
     makeBody, launchMassive, launchLight, launchState, stepVerlet, stepRK4, step, herm, hermRoot, Cone };
 });

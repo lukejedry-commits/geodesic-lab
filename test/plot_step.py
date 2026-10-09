@@ -59,7 +59,7 @@ if NP == 3:
     for case in ["r4_inward", "r5_inward"]:
         for dec in [-2, -1, 0]:
             xs, ys, fl = [], [], []
-            for c in sorted([c for c in A["info"]["plunge"]["cases"] if c["case"] == case], key=lambda c: c["eta"]):
+            for c in sorted([c for c in A["info"]["plunge"]["cases"] if c["case"] == case and not isinstance(c["eta"], str)], key=lambda c: c["eta"]):
                 d = [d for d in c["decades"] if d["decade"] == dec]
                 if d: xs.append(c["eta"]); ys.append(d[0]["ddMax"]); fl.append(d[0]["floorMax"])
             ax.loglog(xs, ys, mk[dec] + "-", color=col[case], alpha=.4 + .3 * (dec + 2) / 2, label=f"{case} r in 1e{dec} decade: double-double")

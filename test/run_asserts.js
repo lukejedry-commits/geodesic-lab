@@ -184,9 +184,10 @@ const etaR = GE.ETA_RK4;
   // L != 0 plunges (room ruling, step 2): the residual |rdot^2 + V^2 - E^2| <= 1e-10 E^2 is graded in DOUBLE-DOUBLE arithmetic on the SAME stored
   // double state (engine state stays Float64); plain double and the round-off floor eps*max(rdot^2,|V^2|,E^2)/E^2 are posted next to it.
   const plunge = { cases: [], note: 'residual by decade of r (r at the START of each step; the final cutoff-landing state is included in the decade of the last step)' };
-  const ETAS = [GE.ETA_RK4, 2e-4, 1e-4, 5e-5];
+  const ETAS = [GE.ETA_RK4, 2e-4, 1e-4, 5e-5, 'default']; // 'default' = launched WITHOUT eta: engine default for L != 0 plunges (step 5: 1e-4)
   for (const [name, r, L] of [['r4_inward', 4 - 1e-4, 4], ['r5_inward', 5 - 1e-4, ref.circular[1].L]]) for (const eta of ETAS) {
-    const b = GE.launchState('massive', { r, rdot: 0, L, eta, method: 'rk4' }); const dec = {}; let n = 0, mdd = 0, mpl = 0, mfl = 0, tauSum = 0;
+    const b = GE.launchState('massive', eta === 'default' ? { r, rdot: 0, L, method: 'rk4' } : { r, rdot: 0, L, eta, method: 'rk4' }); const dec = {};
+    if (eta === 'default') { check(`E.${name}.defaultEta`, `${name}: engine default eta for an L != 0 plunge (isPlunge=${GE.isPlunge(b.E, L, 1, r, 0)})`, b.eta, '==', 1e-4); check(`E.${name}.isPlunge`, `${name}: isPlunge at launch (1 = true)`, GE.isPlunge(b.E, L, 1, r, 0) ? 1 : 0, '==', 1); } let n = 0, mdd = 0, mpl = 0, mfl = 0, tauSum = 0;
     const R1 = AN.winRec(20), R2 = AN.winRec(20);
     const rec = (b, pr, h) => { const dd = DD.residualDD(b), pl = GE.residual(b), fl = DD.floorOf(b);
       const k = Math.floor(Math.log10(Math.max(pr, 1e-3))); const d = dec[k] || (dec[k] = { decade: k, steps: 0, ddMax: 0, plainMax: 0, floorMax: 0, hSum: 0 });

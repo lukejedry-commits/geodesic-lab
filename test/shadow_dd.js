@@ -13,8 +13,8 @@ const { dd, add, mul, div, neg } = D;
 const L5 = ref.circular[1].L;
 // step 4 addition: report-only off-peak case r=8, L=3.5. E^2 = Vmax(1+1e-4) (static r=8 launch, rdot=0, is bound: periapsis 5.97), inward start rdot = -sqrt(E^2 - V^2(8))
 const V2m = (r, L_) => (1 - 2 / r) * (1 + L_ * L_ / (r * r));
-const OFF = CASE === 'r8_L3p5';
-const OFF_E = OFF ? Math.sqrt(V2m(5.25, 3.5) * (1 + 1e-4)) : undefined, OFF_V0 = OFF ? -Math.sqrt(OFF_E * OFF_E - V2m(8, 3.5)) : 0;
+const OFF = CASE === 'r8_L3p5' || CASE === 'r8_L3p5_m1e-2', MARGIN = CASE === 'r8_L3p5_m1e-2' ? 1e-2 : 1e-4;
+const OFF_E = OFF ? Math.sqrt(V2m(5.25, 3.5) * (1 + MARGIN)) : undefined, OFF_V0 = OFF ? -Math.sqrt(OFF_E * OFF_E - V2m(8, 3.5)) : 0;
 const [r0d, L] = CASE === 'r4_inward' ? [4 - 1e-4, 4] : (OFF ? [8, 3.5] : [5 - 1e-4, L5]);
 const sc = (a, c) => mul(a, dd(c));
 const hi = (a) => a[0];
