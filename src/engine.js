@@ -33,7 +33,7 @@
     if (rdot >= 0) return (E + s * rdot) / (1 - 2 * M / r);
     return ((kind === 'massive' ? 1 : 0) + L * L / (r * r) + rdot * rdot) / (E - s * rdot);
   }
-  let STEP_RULE = 'r32'; // 'r32' = NM ruling (h proportional to r^(3/2), far-field cap). 'r32+L' = variant with extra limits (reported separately)
+  let STEP_RULE = 'r32+L'; // DEFAULT (room ruling, step 2): h ~ r^(3/2), also h <= r^2/|L| and h <= r/|rdot|. 'r32' = plain r^(3/2) rule (step 1), kept selectable for comparison
   function setStepRule(x) { if (x !== 'r32' && x !== 'r32+L') throw new Error('unknown step rule'); STEP_RULE = x; }
   function hscale(r, M) { // proportional to r^(3/2)/sqrt(M); far-field cap (r > FAR_R) ~ sqrt(FAR_R) r / sqrt(M) keeps it continuous
     return (r <= FAR_R ? Math.pow(r, 1.5) : Math.sqrt(FAR_R) * r) / Math.sqrt(M);
@@ -138,7 +138,7 @@
     const M = b.M, L = b.L, E = b.E, kind = b.kind, massive = kind === 'massive';
     const acc = massive ? accMassive : accLight;
     let hs = hscale(b.r, M);
-    if (STEP_RULE === 'r32+L') { // optional variant (NOT the NM ruling): also resolve the angular motion, h <= r^2/|L|, and the radial motion, h <= r/|rdot|
+    if (STEP_RULE === 'r32+L') { // default rule: also resolve the angular motion, h <= r^2/|L|, and the radial motion, h <= r/|rdot|
       const hl = b.L !== 0 ? b.r * b.r / Math.abs(b.L) : Infinity, hv = b.r / (Math.abs(b.rdot) + 1e-300);
       hs = Math.min(hs, hl, hv);
     }
@@ -189,7 +189,7 @@
       const c = Math.cos(delta), s = Math.sin(delta);
       const P2r = [c * P2[0] - s * P2[1], s * P2[0] + c * P2[1]];
       const mis = Math.hypot(P2r[0] - P1[0], P2r[1] - P1[1]) / Math.hypot(P1[0], P1[1]);
-      return { x: P1[0], radial: P1[2], imageMismatch: mis };
+      return { x: P1[0], radial: Math.hypot(P1[0], P1[1]), imageMismatch: mis }; // radial from the hit point itself (not from the b/sin formula)
     },
     // a body at rest stays at rest: positions in the unrolled plane do not change; clock rate is 1 everywhere
     restBody(x, y) { return { x, y, vx: 0, vy: 0, clockRate: 1 }; },

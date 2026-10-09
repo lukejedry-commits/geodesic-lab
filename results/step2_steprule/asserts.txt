@@ -1,0 +1,155 @@
+Geodesic Lab v1 asserts  step=step2_steprule  engine ETA_VERLET=0.002 ETA_RK4=0.0005  R_CUT=0.05
+ID                                 RESULT  MEASURED        OP  THRESHOLD       DESCRIPTION
+A.r8.method                        PASS    verlet          ==  verlet          r=8: integrator chosen (Verlet expected for bound outside-2M orbit)
+A.r8.dr                            PASS    5.551e-16       <=  1.000e-6        r=8: max |r-r0|/r0 over 100 orbits (248365 steps, orbits=100)
+A.r8.Omega                         PASS    1.623e-12       <=  1.000e-6        r=8: |Omega-ref|/ref, Omega=dphi/dT (meas 0.0441942 ref 0.0441942)
+A.r8.dtaudT                        PASS    4.585e-13       <=  1.000e-6        r=8: |dtau/dT-ref|/ref (meas 0.790569 ref 0.790569)
+A.r10.method                       PASS    verlet          ==  verlet          r=10: integrator chosen (Verlet expected for bound outside-2M orbit)
+A.r10.dr                           PASS    0               <=  1.000e-6        r=10: max |r-r0|/r0 over 100 orbits (262845 steps, orbits=100)
+A.r10.Omega                        PASS    4.488e-12       <=  1.000e-6        r=10: |Omega-ref|/ref, Omega=dphi/dT (meas 0.0316228 ref 0.0316228)
+A.r10.dtaudT                       PASS    3.858e-13       <=  1.000e-6        r=10: |dtau/dT-ref|/ref (meas 0.83666 ref 0.83666)
+A.r20.method                       PASS    verlet          ==  verlet          r=20: integrator chosen (Verlet expected for bound outside-2M orbit)
+A.r20.dr                           PASS    7.105e-16       <=  1.000e-6        r=20: max |r-r0|/r0 over 100 orbits (289641 steps, orbits=100)
+A.r20.Omega                        PASS    4.948e-13       <=  1.000e-6        r=20: |Omega-ref|/ref, Omega=dphi/dT (meas 0.0111803 ref 0.0111803)
+A.r20.dtaudT                       PASS    1.906e-12       <=  1.000e-6        r=20: |dtau/dT-ref|/ref (meas 0.921954 ref 0.921954)
+A.r100.method                      PASS    verlet          ==  verlet          r=100: integrator chosen (Verlet expected for bound outside-2M orbit)
+A.r100.dr                          PASS    0               <=  1.000e-6        r=100: max |r-r0|/r0 over 100 orbits (309412 steps, orbits=100)
+A.r100.Omega                       PASS    1.014e-11       <=  1.000e-6        r=100: |Omega-ref|/ref, Omega=dphi/dT (meas 0.001 ref 0.001)
+A.r100.dtaudT                      PASS    1.442e-12       <=  1.000e-6        r=100: |dtau/dT-ref|/ref (meas 0.984886 ref 0.984886)
+A.r4.first                         PASS    0               <=  1.000e-6        r=4 (E=1 exactly, rk4): first orbit max |r-r0|/r0 (orbits=1.00005)
+A.r4.refEL                         PASS    0               <=  0               r=4: ref E, L equal the exact (1, 4)
+A.r4.inward                        PASS    2.45637         <=  20              r=4 kick -1e-4 (rk4, E=1): orbits before crossing 2M
+A.r4.outward                       PASS    1000            >=  1000            r=4 kick +1e-4 (verlet, E=1): max r reached (escape needs > 1000)
+A.r5.first                         PASS    0               <=  1.000e-6        r=5 (verlet): first orbit max |r-r0|/r0 (orbits=1.00004)
+A.r6.first                         PASS    0               <=  1.000e-6        r=6 (rk4): first orbit max |r-r0|/r0 (orbits=1.00005)
+A.r5.inward                        PASS    3.95292         <=  20              r=5 kick -1e-4 (rk4): orbits before crossing 2M (no clamping of r)
+A.ui.launch                        PASS    0               <=  1.000e-6        UI launch r=20, v=sqrt(M/(r-2M))=0.235702: max |r-r0|/r0 over 10 orbits (verlet)
+A.ui.EL                            PASS    1.137e-16       <=  1.000e-14       UI launch r=20: |E-Eref|/Eref and |L-Lref|/Lref (max)
+B.rp10_ra20.shift                  PASS    2.343e-7        <=  1.000e-4        (10,20) periapsis shift/period, eta=0.002, mean over 20 periods; sim 2.20225 ref 2.20225
+B.rp10_ra20.p0                     PASS    1.99999         in  1.8..2.2        (10,20) convergence eta=0.004 -> 0.002 (dtau 0.126491 -> 0.0632456, step ratio 2); err 9.373e-7 -> 2.343e-7; p
+B.rp10_ra20.p1                     PASS    1.99998         in  1.8..2.2        (10,20) convergence eta=0.008 -> 0.004 (dtau 0.252982 -> 0.126491, step ratio 2); err 3.749e-6 -> 9.373e-7; p
+B.rp8_ra40.shift                   PASS    1.892e-7        <=  1.000e-4        (8,40) periapsis shift/period, eta=0.002, mean over 20 periods; sim 2.24255 ref 2.24255
+B.rp8_ra40.p0                      PASS    1.99998         in  1.8..2.2        (8,40) convergence eta=0.004 -> 0.002 (dtau 0.0905097 -> 0.0452548, step ratio 2); err 7.567e-7 -> 1.892e-7; p
+B.rp8_ra40.p1                      PASS    2.00005         in  1.8..2.2        (8,40) convergence eta=0.008 -> 0.004 (dtau 0.181019 -> 0.0905097, step ratio 2); err 3.027e-6 -> 7.567e-7; p
+B.rp20_ra60.shift                  PASS    6.957e-7        <=  1.000e-4        (20,60) periapsis shift/period, eta=0.002, mean over 20 periods; sim 0.743918 ref 0.743918
+B.rp20_ra60.p0                     PASS    1.99999         in  1.8..2.2        (20,60) convergence eta=0.004 -> 0.002 (dtau 0.357771 -> 0.178885, step ratio 2); err 2.783e-6 -> 6.957e-7; p
+B.rp20_ra60.p1                     PASS    2.00007         in  1.8..2.2        (20,60) convergence eta=0.008 -> 0.004 (dtau 0.715542 -> 0.357771, step ratio 2); err 1.113e-5 -> 2.783e-6; p
+B.rp100_ra200.shift                PASS    4.013e-6        <=  1.000e-4        (100,200) periapsis shift/period, eta=0.002, mean over 20 periods; sim 0.146362 ref 0.146362
+B.rp100_ra200.p0                   PASS    2.00001         in  1.8..2.2        (100,200) convergence eta=0.004 -> 0.002 (dtau 4 -> 2, step ratio 2); err 1.605e-5 -> 4.013e-6; p
+B.rp100_ra200.p1                   PASS    1.99998         in  1.8..2.2        (100,200) convergence eta=0.008 -> 0.004 (dtau 8 -> 4, step ratio 2); err 6.421e-5 -> 1.605e-5; p
+B.rp1000_ra2000.shift              PASS    4.164e-5        <=  1.000e-4        (1000,2000) periapsis shift/period, eta=0.002, mean over 20 periods; sim 0.0141848 ref 0.0141854
+B.rp1000_ra2000.p0                 PASS    1.99998         in  1.8..2.2        (1000,2000) convergence eta=0.004 -> 0.002 (dtau 126.491 -> 63.2456, step ratio 2); err 1.666e-4 -> 4.164e-5; p
+B.rp1000_ra2000.p1                 PASS    2.00007         in  1.8..2.2        (1000,2000) convergence eta=0.008 -> 0.004 (dtau 252.982 -> 126.491, step ratio 2); err 6.663e-4 -> 1.666e-4; p
+B.rp1000_ra2000.weak               PASS    0.00336699      <=  0.0075          (1000,2000) weak field, M/p_semi=7.500e-4: |sim-6piM/p|/(6piM/p) (sim 0.0141848, formula 0.0141372) vs 10 M/p
+C.b5.24811.defl                    PASS    1.892e-11       <=  1.000e-8        b=5.24811 deflection rel err, eta=0.0005 (sim 4.22966181176 ref 4.22966181184, Rs=1.000e+5, 49737 steps)
+C.b5.24811.rmin                    PASS    3.775e-12       <=  1.000e-8        b=5.24811 r_min rel err (sim 3.27294551638 ref 3.27294551636; cubic Hermite rdot zero crossing)
+C.b5.24811.residual                PASS    1.033e-14       <=  1.000e-10       b=5.24811 null constraint residual max over whole RK4 path (E section)
+C.b5.5.defl                        PASS    1.232e-11       <=  1.000e-8        b=5.5 deflection rel err, eta=0.0005 (sim 2.55302018231 ref 2.55302018235, Rs=1.000e+5, 46191 steps)
+C.b5.5.rmin                        PASS    4.434e-12       <=  1.000e-8        b=5.5 r_min rel err (sim 3.76675088083 ref 3.76675088082; cubic Hermite rdot zero crossing)
+C.b5.5.residual                    PASS    1.310e-14       <=  1.000e-10       b=5.5 null constraint residual max over whole RK4 path (E section)
+C.b6.defl                          PASS    1.907e-11       <=  1.000e-8        b=6 deflection rel err, eta=0.0005 (sim 1.71938831020 ref 1.71938831023, Rs=1.000e+5, 44167 steps)
+C.b6.rmin                          PASS    9.273e-12       <=  1.000e-8        b=6 r_min rel err (sim 4.45336319385 ref 4.45336319381; cubic Hermite rdot zero crossing)
+C.b6.residual                      PASS    8.549e-15       <=  1.000e-10       b=6 null constraint residual max over whole RK4 path (E section)
+C.b8.defl                          PASS    1.689e-12       <=  1.000e-8        b=8 deflection rel err, eta=0.0005 (sim 0.858730018078 ref 0.858730018079, Rs=1.000e+5, 41272 steps)
+C.b8.rmin                          PASS    1.171e-12       <=  1.000e-8        b=8 r_min rel err (sim 6.70052348227 ref 6.70052348227; cubic Hermite rdot zero crossing)
+C.b8.residual                      PASS    1.821e-14       <=  1.000e-10       b=8 null constraint residual max over whole RK4 path (E section)
+C.b10.defl                         PASS    3.671e-12       <=  1.000e-8        b=10 deflection rel err, eta=0.0005 (sim 0.590395787604 ref 0.590395787606, Rs=1.000e+5, 39829 steps)
+C.b10.rmin                         PASS    2.791e-12       <=  1.000e-8        b=10 r_min rel err (sim 8.78885066252 ref 8.78885066250; cubic Hermite rdot zero crossing)
+C.b10.residual                     PASS    1.132e-14       <=  1.000e-10       b=10 null constraint residual max over whole RK4 path (E section)
+C.b20.defl                         PASS    7.170e-14       <=  1.000e-8        b=20 deflection rel err, eta=0.0005 (sim 0.236135995388 ref 0.236135995388, Rs=1.000e+5, 36322 steps)
+C.b20.rmin                         PASS    1.491e-13       <=  1.000e-8        b=20 r_min rel err (sim 18.9129854785 ref 18.9129854785; cubic Hermite rdot zero crossing)
+C.b20.residual                     PASS    1.599e-14       <=  1.000e-10       b=20 null constraint residual max over whole RK4 path (E section)
+C.b100.defl                        PASS    2.139e-13       <=  1.000e-8        b=100 deflection rel err, eta=0.0005 (sim 0.0412225397493 ref 0.0412225397493, Rs=1.000e+5, 29474 steps)
+C.b100.rmin                        PASS    6.001e-14       <=  1.000e-8        b=100 r_min rel err (sim 98.9845863754 ref 98.9845863754; cubic Hermite rdot zero crossing)
+C.b100.residual                    PASS    1.199e-14       <=  1.000e-10       b=100 null constraint residual max over whole RK4 path (E section)
+C.b100.p                           PASS    4.00997         in  3.6..4.4        b=100 convergence (finest pair above round-off) eta=0.016 -> 0.008 (step ratio 2); err 2.479e-8 -> 1.539e-9; p
+C.b100.weak                        PASS    0.0305635       <=  0.1             b=100 weak field: |sim-4M/b|/(4M/b) vs 10 M/b (sim 0.0412225, 4M/b 0.04)
+C.b1000.defl                       PASS    2.327e-12       <=  1.000e-8        b=1000 deflection rel err, eta=0.0005 (sim 0.00401182380993 ref 0.00401182380993, Rs=1.000e+6, 29395 steps)
+C.b1000.rmin                       PASS    2.117e-14       <=  1.000e-8        b=1000 r_min rel err (sim 998.998495987 ref 998.998495987; cubic Hermite rdot zero crossing)
+C.b1000.residual                   PASS    1.299e-14       <=  1.000e-10       b=1000 null constraint residual max over whole RK4 path (E section)
+C.b1000.p                          PASS    3.99811         in  3.6..4.4        b=1000 convergence (finest pair above round-off) eta=0.008 -> 0.004 (step ratio 2); err 1.715e-8 -> 1.073e-9; p
+C.b1000.weak                       PASS    0.00295595      <=  0.01            b=1000 weak field: |sim-4M/b|/(4M/b) vs 10 M/b (sim 0.00401182, 4M/b 0.004)
+C.capture                          PASS    true            true  true            b=0.99 b_c (5.14419) crosses 2M (reason singularity, captured=true)
+C.escape                           PASS    true            true  true            b=1.01 b_c (5.24811) escapes to r > 1000 (esc1000=true, r_min 3.27295)
+C.launch                           PASS    1.480e-16       <=  1.000e-12       light launch r=20, b=6: |L/E - 6|/6 (L/E=5.999999999999999, alpha=0.288594)
+C.split.time                       PASS    0.00315307      <=  0.01            b=1000 g_tt only curved: deflection 0.0020063061 vs 2M/b=0.002
+C.split.space                      PASS    0.00117952      <=  0.01            b=1000 g_rr only curved: deflection 0.0020023590 vs 2M/b=0.002
+C.split.full                       PASS    0.00295595      <=  0.01            b=1000 full metric (engine RK4 ray): 0.0040118238 vs 4M/b=0.004 (u-phi integrator gives 0.0040118233)
+C.split.sum                        PASS    0.0021663       <=  0.01            b=1000 time part + space part = 0.0040086652 vs 4M/b=0.004
+D.r2.tau                           PASS    4.681e-15       <=  1.000e-8        r0=2: tau(r0->0.05) vs (2/3)(r0^1.5-0.05^1.5)/sqrt(2M)=1.32806 (sim 1.32806287057, ref-file tau(r0->0) 1.33333; 7375 steps)
+D.r2.TminusTau                     PASS    4.171e-16       <=  1.000e-10       r0=2: max |T-tau|/(1+tau/M) over every step (incl. through r=2M, crossed=true)
+D.r2.nan                           PASS    0               ==  0               r0=2: non-finite states
+D.r2.mono                          PASS    true            true  true            r0=2: T strictly increasing at every step
+D.r2.removed                       PASS    0.05            >=  0.05            r0=2: removed at r<0.05 (reason singularity); smallest r of any state (0.05)
+D.r2.residual                      PASS    1.990e-13       <=  1.000e-10       r0=2: constraint residual max over whole path
+D.r6.tau                           PASS    6.415e-16       <=  1.000e-8        r0=6: tau(r0->0.05) vs (2/3)(r0^1.5-0.05^1.5)/sqrt(2M)=6.92293 (sim 6.92293276751, ref-file tau(r0->0) 6.9282; 9572 steps)
+D.r6.TminusTau                     PASS    2.804e-16       <=  1.000e-10       r0=6: max |T-tau|/(1+tau/M) over every step (incl. through r=2M, crossed=true)
+D.r6.nan                           PASS    0               ==  0               r0=6: non-finite states
+D.r6.mono                          PASS    true            true  true            r0=6: T strictly increasing at every step
+D.r6.removed                       PASS    0.05            >=  0.05            r0=6: removed at r<0.05 (reason singularity); smallest r of any state (0.05)
+D.r6.residual                      PASS    4.476e-13       <=  1.000e-10       r0=6: constraint residual max over whole path
+D.r10.tau                          PASS    1.669e-15       <=  1.000e-8        r0=10: tau(r0->0.05) vs (2/3)(r0^1.5-0.05^1.5)/sqrt(2M)=14.9018 (sim 14.9018493872, ref-file tau(r0->0) 14.9071; 10593 steps)
+D.r10.TminusTau                    PASS    4.825e-16       <=  1.000e-10       r0=10: max |T-tau|/(1+tau/M) over every step (incl. through r=2M, crossed=true)
+D.r10.nan                          PASS    0               ==  0               r0=10: non-finite states
+D.r10.mono                         PASS    true            true  true            r0=10: T strictly increasing at every step
+D.r10.removed                      PASS    0.05            >=  0.05            r0=10: removed at r<0.05 (reason singularity); smallest r of any state (0.05)
+D.r10.residual                     PASS    4.192e-13       <=  1.000e-10       r0=10: constraint residual max over whole path
+D.neverBelow                       PASS    true            true  true            removed body: further step() returns false and leaves r unchanged (r=0.05, steps 4)
+D.removeBeforeStep                 PASS    true            true  true            body starting at r=0.04 < 0.05 is removed before stepping (r unchanged)
+E.rp10.ratio                       PASS    0.999998        <=  2               Verlet (10,20) 1000 periods (1000 found, 6721959 steps): max residual last 100 = 3.453e-9 vs 2 x first 100 = 6.905e-9 (first 3.453e-9); measured last/first
+E.rp10.abs                         PASS    3.453e-9        <=  1.000e-6        Verlet (10,20) max residual over all 1000 periods
+E.rp10.periods                     PASS    1000            >=  1000            Verlet (10,20) periods completed
+E.rp8.ratio                        PASS    1               <=  2               Verlet (8,40) 1000 periods (1000 found, 17951107 steps): max residual last 100 = 1.337e-8 vs 2 x first 100 = 2.674e-8 (first 1.337e-8); measured last/first
+E.rp8.abs                          PASS    1.337e-8        <=  1.000e-6        Verlet (8,40) max residual over all 1000 periods
+E.rp8.periods                      PASS    1000            >=  1000            Verlet (8,40) periods completed
+E.rp20.ratio                       PASS    1               <=  2               Verlet (20,60) 1000 periods (1000 found, 9286896 steps): max residual last 100 = 6.004e-9 vs 2 x first 100 = 1.201e-8 (first 6.004e-9); measured last/first
+E.rp20.abs                         PASS    6.004e-9        <=  1.000e-6        Verlet (20,60) max residual over all 1000 periods
+E.rp20.periods                     PASS    1000            >=  1000            Verlet (20,60) periods completed
+E.rp100.ratio                      PASS    1               <=  2               Verlet (100,200) 1000 periods (1000 found, 5831517 steps): max residual last 100 = 7.072e-10 vs 2 x first 100 = 1.414e-9 (first 7.072e-10); measured last/first
+E.rp100.abs                        PASS    7.072e-10       <=  1.000e-6        Verlet (100,200) max residual over all 1000 periods
+E.rp100.periods                    PASS    1000            >=  1000            Verlet (100,200) periods completed
+E.rp1000.ratio                     PASS    1               <=  2               Verlet (1000,2000) 1000 periods (1000 found, 5777268 steps): max residual last 100 = 7.383e-11 vs 2 x first 100 = 1.477e-10 (first 7.383e-11); measured last/first
+E.rp1000.abs                       PASS    7.383e-11       <=  1.000e-6        Verlet (1000,2000) max residual over all 1000 periods
+E.rp1000.periods                   PASS    1000            >=  1000            Verlet (1000,2000) periods completed
+E.r4_inward.residualDD.eta0.0005   FAIL    4.185e-8        <=  1.000e-10       plunge r4_inward eta=0.0005 (38737 steps, removed: singularity): DOUBLE-DOUBLE residual max over every step to the cutoff [plain double max 4.187e-8; round-off floor max 2.772e-11]
+E.r4_inward.plain.eta0.0005        INFO    4.187e-8        info  1.000e-10       plunge r4_inward eta=0.0005: plain-double residual (posted, not graded; floor 2.772e-11)
+E.r4_inward.residualDD.eta0.0002   FAIL    1.508e-9        <=  1.000e-10       plunge r4_inward eta=0.0002 (96849 steps, removed: singularity): DOUBLE-DOUBLE residual max over every step to the cutoff [plain double max 1.535e-9; round-off floor max 2.772e-11]
+E.r4_inward.plain.eta0.0002        INFO    1.535e-9        info  1.000e-10       plunge r4_inward eta=0.0002: plain-double residual (posted, not graded; floor 2.772e-11)
+E.r4_inward.residualDD.eta0.0001   FAIL    1.232e-9        <=  1.000e-10       plunge r4_inward eta=0.0001 (193702 steps, removed: singularity): DOUBLE-DOUBLE residual max over every step to the cutoff [plain double max 1.230e-9; round-off floor max 2.772e-11]
+E.r4_inward.plain.eta0.0001        INFO    1.230e-9        info  1.000e-10       plunge r4_inward eta=0.0001: plain-double residual (posted, not graded; floor 2.772e-11)
+E.r4_inward.residualDD.eta0.00005  FAIL    1.701e-9        <=  1.000e-10       plunge r4_inward eta=0.00005 (387409 steps, removed: singularity): DOUBLE-DOUBLE residual max over every step to the cutoff [plain double max 1.725e-9; round-off floor max 2.772e-11]
+E.r4_inward.plain.eta0.00005       INFO    1.725e-9        info  1.000e-10       plunge r4_inward eta=0.00005: plain-double residual (posted, not graded; floor 2.772e-11)
+E.r5_inward.residualDD.eta0.0005   FAIL    3.608e-8        <=  1.000e-10       plunge r5_inward eta=0.0005 (57480 steps, removed: singularity): DOUBLE-DOUBLE residual max over every step to the cutoff [plain double max 3.603e-8; round-off floor max 2.406e-11]
+E.r5_inward.plain.eta0.0005        INFO    3.603e-8        info  1.000e-10       plunge r5_inward eta=0.0005: plain-double residual (posted, not graded; floor 2.406e-11)
+E.r5_inward.residualDD.eta0.0002   FAIL    6.850e-10       <=  1.000e-10       plunge r5_inward eta=0.0002 (143707 steps, removed: singularity): DOUBLE-DOUBLE residual max over every step to the cutoff [plain double max 6.896e-10; round-off floor max 2.406e-11]
+E.r5_inward.plain.eta0.0002        INFO    6.896e-10       info  1.000e-10       plunge r5_inward eta=0.0002: plain-double residual (posted, not graded; floor 2.406e-11)
+E.r5_inward.residualDD.eta0.0001   FAIL    2.903e-9        <=  1.000e-10       plunge r5_inward eta=0.0001 (287418 steps, removed: singularity): DOUBLE-DOUBLE residual max over every step to the cutoff [plain double max 2.937e-9; round-off floor max 2.406e-11]
+E.r5_inward.plain.eta0.0001        INFO    2.937e-9        info  1.000e-10       plunge r5_inward eta=0.0001: plain-double residual (posted, not graded; floor 2.406e-11)
+E.r5_inward.residualDD.eta0.00005  FAIL    1.848e-9        <=  1.000e-10       plunge r5_inward eta=0.00005 (574841 steps, removed: singularity): DOUBLE-DOUBLE residual max over every step to the cutoff [plain double max 1.849e-9; round-off floor max 2.406e-11]
+E.r5_inward.plain.eta0.00005       INFO    1.849e-9        info  1.000e-10       plunge r5_inward eta=0.00005: plain-double residual (posted, not graded; floor 2.406e-11)
+E.r4_inward.p.dec-2.eta0.0002      FAIL    0.29179         in  3.6..4.4        plunge r4_inward decade 1e-2: DD residual eta 0.0002 -> 0.0001 (mean dt ratio 1.99974): 1.508e-9 -> 1.232e-9 (floor 2.772e-11); p
+E.r4_inward.p.dec-1.eta0.0002      FAIL    -0.345536       in  3.6..4.4        plunge r4_inward decade 1e-1: DD residual eta 0.0002 -> 0.0001 (mean dt ratio 2.00003): 1.606e-10 -> 2.040e-10 (floor 3.378e-12); p
+E.r4_inward.p.dec0.eta0.0002       FAIL    -1.58438        in  3.6..4.4        plunge r4_inward decade 1e0: DD residual eta 0.0002 -> 0.0001 (mean dt ratio 2.00001): 6.849e-14 -> 2.054e-13 (floor 1.999e-15); p
+E.r4_inward.p.dec-2.eta0.0001      FAIL    -0.466065       in  3.6..4.4        plunge r4_inward decade 1e-2: DD residual eta 0.0001 -> 0.00005 (mean dt ratio 1.99985): 1.232e-9 -> 1.701e-9 (floor 2.772e-11); p
+E.r4_inward.p.dec-1.eta0.0001      FAIL    -0.562214       in  3.6..4.4        plunge r4_inward decade 1e-1: DD residual eta 0.0001 -> 0.00005 (mean dt ratio 1.99974): 2.040e-10 -> 3.012e-10 (floor 3.377e-12); p
+E.r4_inward.p.dec0.eta0.0001       FAIL    -1.14865        in  3.6..4.4        plunge r4_inward decade 1e0: DD residual eta 0.0001 -> 0.00005 (mean dt ratio 2): 2.054e-13 -> 4.553e-13 (floor 1.998e-15); p
+E.r5_inward.p.dec-2.eta0.0002      FAIL    -2.08336        in  3.6..4.4        plunge r5_inward decade 1e-2: DD residual eta 0.0002 -> 0.0001 (mean dt ratio 1.9996): 6.850e-10 -> 2.903e-9 (floor 2.406e-11); p
+E.r5_inward.p.dec-1.eta0.0002      FAIL    0.0741203       in  3.6..4.4        plunge r5_inward decade 1e-1: DD residual eta 0.0002 -> 0.0001 (mean dt ratio 1.99991): 2.073e-10 -> 1.969e-10 (floor 2.933e-12); p
+E.r5_inward.p.dec0.eta0.0002       FAIL    0.187447        in  3.6..4.4        plunge r5_inward decade 1e0: DD residual eta 0.0002 -> 0.0001 (mean dt ratio 2.00001): 1.506e-13 -> 1.322e-13 (floor 1.777e-15); p
+E.r5_inward.p.dec-2.eta0.0001      FAIL    0.651569        in  3.6..4.4        plunge r5_inward decade 1e-2: DD residual eta 0.0001 -> 0.00005 (mean dt ratio 1.99979): 2.903e-9 -> 1.848e-9 (floor 2.406e-11); p
+E.r5_inward.p.dec-1.eta0.0001      FAIL    0.0187325       in  3.6..4.4        plunge r5_inward decade 1e-1: DD residual eta 0.0001 -> 0.00005 (mean dt ratio 1.99991): 1.969e-10 -> 1.944e-10 (floor 2.932e-12); p
+E.r5_inward.p.dec0.eta0.0001       FAIL    -1.41638        in  3.6..4.4        plunge r5_inward decade 1e0: DD residual eta 0.0001 -> 0.00005 (mean dt ratio 2): 1.322e-13 -> 3.529e-13 (floor 1.777e-15); p
+E.bitwise                          PASS    0               ==  0               E and L bitwise unchanged for all 11 tracked bodies after their runs (changed: 0); E not assignable: true
+F.cross                            PASS    1.870e-16       <=  1.000e-12       parallel rays +-b cross at x=b/tan(delta/2) in the unrolled plane (20 cases m in {.01..0.24}, b in {.3..1000}); max rel err
+F.cross.radial                     PASS    1.855e-16       <=  1.000e-12       radial distance to the seam point = b/sin(delta/2) (hypot of the intersection point; 20 cases); max rel err
+F.glue                             PASS    1.392e-16       <=  1.000e-12       the two edge-hit points coincide under the gluing rotation (max relative mismatch)
+F.rest                             PASS    0               ==  0               body at rest: displacement after 1000 frames
+F.clock                            PASS    1               ==  1               clock rate everywhere in cone mode (min over frames)
+F.deficitLimit                     PASS    true            true  true            deficit >= 2 pi (m = 0.25) is rejected
+G.scan                             PASS    0               ==  0               source scan of src/*.js (excluding draw.js) for Float32Array/Float32/Float16/fround: hits 0
+G.runtime                          PASS    true            true  true            after 1000 Verlet steps on the (10,20) orbit r, phi, T, tau are not float32-representable (state is 64-bit)
+H.regression                       PASS    0               ==  0               no pass->fail flip vs baseline (results/step1_core/asserts.json: 128 baseline asserts, pass->fail flips: 0)
+
+121/141 PASS, 20 FAIL  (8 INFO rows not graded)
+note: Weak-field formula asserted only where M/p_semi <= 1e-3: of the 5 ref cases only (1000,2000) qualifies (p_semi=1333.3); the others are strong field and are NOT asserted against 6piM/p.
+note: F: "distance b/tan(delta/2) past the apex" is asserted both as the x-coordinate in the unrolled plane (F.cross) and as the radial distance to the seam point b/sin(delta/2) (F.cross.radial).

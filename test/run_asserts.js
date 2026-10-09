@@ -6,7 +6,7 @@
 // Never overwrites: refuses to run if results/<step>/asserts.json exists.
 'use strict';
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
-const GE = require('../src/engine.js'), AN = require('../src/analysis.js');
+const GE = require('../src/engine.js'), AN = require('../src/analysis.js'), DD = require('./dd.js');
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
 const ROOT = path.join(__dirname, '..');
@@ -22,8 +22,8 @@ const fmt = (x) => (typeof x === 'number' ? (Number.isFinite(x) ? (Math.abs(x) >
 function check(id, desc, measured, op, threshold, extra) {
   let pass;
   if (op === '<=') pass = measured <= threshold; else if (op === '>=') pass = measured >= threshold; else if (op === '==') pass = measured === threshold;
-  else if (op === 'in') pass = measured >= threshold[0] && measured <= threshold[1]; else if (op === 'true') pass = measured === true;
-  if (!Number.isFinite(measured) && typeof measured === 'number') pass = false;
+  else if (op === 'info') pass = null; else if (op === 'in') pass = measured >= threshold[0] && measured <= threshold[1]; else if (op === 'true') pass = measured === true;
+  if (op !== 'info' && !Number.isFinite(measured) && typeof measured === 'number') pass = false;
   checks.push({ id, desc, measured, op, threshold, pass, extra: extra || null });
 }
 const tracked = [];
@@ -180,25 +180,40 @@ const etaR = GE.ETA_RK4;
     check(`E.rp${c.r_p}.abs`, `Verlet (${c.r_p},${c.r_a}) max residual over all 1000 periods`, run.maxResidual, '<=', 1e-6, { first100: first, last100: last });
     check(`E.rp${c.r_p}.periods`, `Verlet (${c.r_p},${c.r_a}) periods completed`, run.N, '>=', 1000);
   }
-  // RK4 paths <= 1e-10 for the whole path: already asserted for light (C.*.residual) and infall (D.*.residual); plunges here
-  for (const [name, r, L, E] of [['r4_inward', 4 - 1e-4, 4, undefined], ['r5_inward', 5 - 1e-4, ref.circular[1].L, undefined]]) {
-    const b = GE.launchState('massive', { r, rdot: 0, L }); let mr = 0, n = 0; const R = AN.winRec(20);
-    while (b.alive && n < 5e7) { if (!GE.step(b)) break; n++; const x = GE.residual(b); if (x > mr) mr = x; R.push(b.T, x); }
-    series['E_rk4_' + name] = R.out;
-    check(`E.${name}.residual`, `RK4 plunge ${name} (${n} steps, removed: ${b.reason}): residual max over the whole path`, mr, '<=', 1e-10);
+  // RK4 paths <= 1e-10: light (C.*.residual) and infall (D.*.residual) are asserted above in plain double (unchanged).
+  // L != 0 plunges (room ruling, step 2): the residual |rdot^2 + V^2 - E^2| <= 1e-10 E^2 is graded in DOUBLE-DOUBLE arithmetic on the SAME stored
+  // double state (engine state stays Float64); plain double and the round-off floor eps*max(rdot^2,|V^2|,E^2)/E^2 are posted next to it.
+  const plunge = { cases: [], note: 'residual by decade of r (r at the START of each step; the final cutoff-landing state is included in the decade of the last step)' };
+  const ETAS = [GE.ETA_RK4, 2e-4, 1e-4, 5e-5];
+  for (const [name, r, L] of [['r4_inward', 4 - 1e-4, 4], ['r5_inward', 5 - 1e-4, ref.circular[1].L]]) for (const eta of ETAS) {
+    const b = GE.launchState('massive', { r, rdot: 0, L, eta, method: 'rk4' }); const dec = {}; let n = 0, mdd = 0, mpl = 0, mfl = 0, tauSum = 0;
+    const R1 = AN.winRec(20), R2 = AN.winRec(20);
+    const rec = (b, pr, h) => { const dd = DD.residualDD(b), pl = GE.residual(b), fl = DD.floorOf(b);
+      const k = Math.floor(Math.log10(Math.max(pr, 1e-3))); const d = dec[k] || (dec[k] = { decade: k, steps: 0, ddMax: 0, plainMax: 0, floorMax: 0, hSum: 0 });
+      d.steps++; d.hSum += h; if (dd > d.ddMax) d.ddMax = dd; if (pl > d.plainMax) d.plainMax = pl; if (fl > d.floorMax) d.floorMax = fl;
+      if (dd > mdd) mdd = dd; if (pl > mpl) mpl = pl; if (fl > mfl) mfl = fl; R1.push(b.T, dd); R2.push(b.T, pl); };
+    while (b.alive && n < 5e7) { const pr = b.r, t0 = b.par; if (!GE.step(b)) break; n++; rec(b, pr, b.par - t0); }
+    plunge.cases.push({ case: name, eta, steps: n, ddMax: mdd, plainMax: mpl, floorMax: mfl, removed: b.reason, tauEnd: b.par, decades: Object.values(dec).sort((x, y) => x.decade - y.decade) });
+    if (eta === GE.ETA_RK4) { series['E_rk4_' + name] = R1.out; series['E_rk4_' + name + '_plain'] = R2.out; }
+    series[`E_rk4_${name}_eta${eta}`] = R1.out;
+    check(`E.${name}.residualDD.eta${eta}`, `plunge ${name} eta=${eta} (${n} steps, removed: ${b.reason}): DOUBLE-DOUBLE residual max over every step to the cutoff [plain double max ${fmt(mpl)}; round-off floor max ${fmt(mfl)}]`, mdd, '<=', 1e-10, { plainDouble: mpl, floor: mfl, steps: n });
+    check(`E.${name}.plain.eta${eta}`, `plunge ${name} eta=${eta}: plain-double residual (posted, not graded; floor ${fmt(mfl)})`, mpl, 'info', 1e-10);
   }
-  { // diagnostic only (not an assert): where the plunge residual comes from, for the NM step rule and the optional r32+L variant
-    const diag = [];
-    for (const rule of ['r32', 'r32+L']) for (const eta of [GE.ETA_RK4, 2e-4, 1e-4, 5e-5]) for (const [name, r, L] of [['r4_inward', 4 - 1e-4, 4], ['r5_inward', 5 - 1e-4, ref.circular[1].L]]) {
-      if (rule === 'r32' && eta !== GE.ETA_RK4) continue;
-      GE.setStepRule(rule); const b = GE.launchState('massive', { r, rdot: 0, L, eta }); const byDec = {}; let worstScaled = 0, steps = 0;
-      while (b.alive) { const pr = b.r; GE.step(b); steps++; const x = GE.residual(b), V2 = Math.abs(GE.V2massive(b.r, b.L, 1)), sc = x / Math.max(b.E * b.E, V2, b.rdot * b.rdot);
-        const k = 'r_decade_1e' + Math.floor(Math.log10(Math.max(pr, 1e-3))); byDec[k] = Math.max(byDec[k] || 0, x); if (sc > worstScaled) worstScaled = sc; }
-      diag.push({ rule, eta, case: name, steps, residualMaxByRadiusDecade: byDec, maxResidualScaledByLargestTerm: worstScaled });
+  // convergence of the double-double residual with eta, per decade, above the floor; step-ratio rule on the mean dt per decade
+  plunge.convergence = [];
+  for (const name of ['r4_inward', 'r5_inward']) for (let i = 0; i < 2; i++) {
+    const etaC = [2e-4, 1e-4][i], etaF = etaC / 2;
+    const cC = plunge.cases.find((c) => c.case === name && c.eta === etaC), cF = plunge.cases.find((c) => c.case === name && c.eta === etaF);
+    for (const dC of cC.decades) {
+      const dF = cF.decades.find((x) => x.decade === dC.decade); if (!dF) continue;
+      const ratio = (dC.hSum / dC.steps) / (dF.hSum / dF.steps), aboveFloor = dF.ddMax >= 3 * dF.floorMax;
+      const p = (ratio >= 1.8 && ratio <= 2.2 && aboveFloor) ? Math.log2(dC.ddMax / dF.ddMax) : null;
+      const row = { case: name, decade: dC.decade, eta: etaC, etaHalf: etaF, meanDtRatio: ratio, ddMax: dC.ddMax, ddMaxHalf: dF.ddMax, floorHalf: dF.floorMax, aboveFloor, p, status: p !== null ? 'graded' : (aboveFloor ? 'dt ratio outside 1.8-2.2: no p' : 'at/below the round-off floor (finer residual < 3x floor): no p') };
+      plunge.convergence.push(row);
+      if (p !== null) check(`E.${name}.p.dec${dC.decade}.eta${etaC}`, `plunge ${name} decade 1e${dC.decade}: DD residual eta ${etaC} -> ${etaF} (mean dt ratio ${fmt(ratio)}): ${fmt(dC.ddMax)} -> ${fmt(dF.ddMax)} (floor ${fmt(dF.floorMax)}); p`, p, 'in', [3.6, 4.4], row);
     }
-    GE.setStepRule('r32'); info.plungeResidualDiagnostic = diag;
-    info.notes.push('E.*_inward FAIL diagnosis: for massive plunges with L != 0, rdot ~ L/r near the cutoff (|V^2| ~ 2.6e5 at r=0.05, L=4), so the NM step h ~ eta r^(3/2) moves r by ~6% per step there; the residual (relative to E^2 = 1) is ~O(1). The optional rule r32+L (h <= r^2/|L|, r/|rdot|) cures that (see info.plungeResidualDiagnostic) but reaches ~1e-9 and then PLATEAUS (eta 2e-4, 1e-4, 5e-5 give ~1.5e-9, 1.2e-9, 1.7e-9: no eta^4 decrease), consistent with a round-off floor of the cancellation rdot^2 + V^2 (terms ~2.6e5) but not proven here; it does not reach 1e-10. No assert was loosened.');
   }
+  info.plunge = plunge;
   // E, L bitwise unchanged for every tracked body + immutability
   let bad = 0; for (const t of tracked) if (!(Object.is(t.b.E, t.E) && Object.is(t.b.L, t.L))) bad++;
   let canWrite = false; try { 'use strict'; const z = GE.launchState('massive', { r: 10, rdot: 0, L: 4 }); Object.defineProperty(z, 'x', { value: 1 }); z.E = 5; canWrite = z.E === 5; } catch (e) { canWrite = false; }
@@ -207,19 +222,20 @@ const etaR = GE.ETA_RK4;
 
 // ================================ F. cone mode ==================================================
 {
-  let worst = 0, worstImg = 0, n = 0;
+  let worst = 0, worstImg = 0, worstRad = 0, n = 0;
   for (const m of [0.01, 0.05, 0.1, 0.2, 0.24]) for (const b of [0.3, 1, 7.5, 1000]) {
     const d = GE.Cone.deficit(m), r = GE.Cone.parallelRayCrossing(b, d), expect = b / Math.tan(d / 2);
-    worst = Math.max(worst, Math.abs(r.x - expect) / expect); worstImg = Math.max(worstImg, r.imageMismatch); n++;
+    worst = Math.max(worst, Math.abs(r.x - expect) / expect); worstRad = Math.max(worstRad, Math.abs(r.radial - b / Math.sin(d / 2)) / (b / Math.sin(d / 2))); worstImg = Math.max(worstImg, r.imageMismatch); n++;
   }
   check('F.cross', `parallel rays +-b cross at x=b/tan(delta/2) in the unrolled plane (${n} cases m in {.01..0.24}, b in {.3..1000}); max rel err`, worst, '<=', 1e-12);
+  check('F.cross.radial', `radial distance to the seam point = b/sin(delta/2) (hypot of the intersection point; ${n} cases); max rel err`, worstRad, '<=', 1e-12);
   check('F.glue', 'the two edge-hit points coincide under the gluing rotation (max relative mismatch)', worstImg, '<=', 1e-12);
   const body = GE.Cone.restBody(3.5, -1.25); const x0 = body.x, y0 = body.y; let rate = 1; for (let i = 0; i < 1000; i++) { GE.Cone.stepRest(body, 1 / 60); rate = Math.min(rate, body.clockRate); }
   check('F.rest', 'body at rest: displacement after 1000 frames', Math.hypot(body.x - x0, body.y - y0), '==', 0);
   check('F.clock', 'clock rate everywhere in cone mode (min over frames)', rate, '==', 1);
   let thr = false; try { GE.Cone.deficit(0.25); } catch (e) { thr = true; }
   check('F.deficitLimit', 'deficit >= 2 pi (m = 0.25) is rejected', thr, 'true', true);
-  info.notes.push('F: "distance b/tan(delta/2) past the apex" is implemented as the x-coordinate in the unrolled plane (wedge centred on +x). The radial distance along the cone surface to the seam point is b/sin(delta/2). Validation to confirm this reading.');
+  info.notes.push('F: "distance b/tan(delta/2) past the apex" is asserted both as the x-coordinate in the unrolled plane (F.cross) and as the radial distance to the seam point b/sin(delta/2) (F.cross.radial).');
 }
 
 // ================================ G. precision ===================================================
@@ -242,9 +258,10 @@ let baselineInfo = 'none given';
 const bpath = opt('baseline', null);
 // write outputs first (baseline comparison needs the verdicts)
 const status = Object.fromEntries(checks.map((c) => [c.id, c.pass]));
+const missing = [];
 if (bpath && fs.existsSync(bpath)) {
   const base = JSON.parse(fs.readFileSync(bpath, 'utf8')); const flips = [];
-  for (const c of base.checks) if (c.pass && status[c.id] === false) flips.push(c.id);
+  for (const c of base.checks) if (c.pass === true && status[c.id] === false) flips.push(c.id);
   baselineInfo = `${bpath}: ${base.checks.length} baseline asserts, pass->fail flips: ${flips.length}`;
   check('H.regression', `no pass->fail flip vs baseline (${baselineInfo})`, flips.length, '==', 0, { flips });
 } else check('H.baseline', 'baseline file for this step: none (first run; this output IS the baseline, committed)', true, 'true', true);
@@ -253,13 +270,13 @@ const lines = []; const w = (s) => lines.push(s);
 const idW = Math.max(...checks.map((c) => c.id.length));
 w(`Geodesic Lab v1 asserts  step=${STEP}  engine ETA_VERLET=${GE.ETA_VERLET} ETA_RK4=${GE.ETA_RK4}  R_CUT=${GE.R_CUT}`);
 w('ID'.padEnd(idW) + '  RESULT  MEASURED        OP  THRESHOLD       DESCRIPTION');
-for (const c of checks) w(c.id.padEnd(idW) + '  ' + (c.pass ? 'PASS  ' : 'FAIL  ') + '  ' + fmt(c.measured).padEnd(14) + '  ' + c.op.padEnd(2) + '  ' + fmt(Array.isArray(c.threshold) ? c.threshold.join('..') : c.threshold).padEnd(14) + '  ' + c.desc);
-const nFail = checks.filter((c) => !c.pass).length;
-w(`\n${checks.length - nFail}/${checks.length} PASS, ${nFail} FAIL`);
+for (const c of checks) w(c.id.padEnd(idW) + '  ' + (c.pass === null ? 'INFO  ' : c.pass ? 'PASS  ' : 'FAIL  ') + '  ' + fmt(c.measured).padEnd(14) + '  ' + c.op.padEnd(2) + '  ' + fmt(Array.isArray(c.threshold) ? c.threshold.join('..') : c.threshold).padEnd(14) + '  ' + c.desc);
+const graded = checks.filter((c) => c.pass !== null), nFail = graded.filter((c) => !c.pass).length;
+w(`\n${graded.length - nFail}/${graded.length} PASS, ${nFail} FAIL  (${checks.length - graded.length} INFO rows not graded)`);
 info.notes.forEach((n) => w('note: ' + n));
 console.log(lines.join('\n'));
 fs.writeFileSync(path.join(OUT, 'asserts.txt'), lines.join('\n') + '\n');
-fs.writeFileSync(path.join(OUT, 'asserts.json'), JSON.stringify({ step: STEP, when: new Date().toISOString(), info, checks, summary: { total: checks.length, fail: nFail } }, null, 1));
+fs.writeFileSync(path.join(OUT, 'asserts.json'), JSON.stringify({ step: STEP, when: new Date().toISOString(), info, checks, summary: { total: graded.length, fail: nFail, info: checks.length - graded.length } }, null, 1));
 for (const [k, v] of Object.entries(series)) fs.writeFileSync(path.join(OUT, 'series', k + '.json'), JSON.stringify(v));
 fs.writeFileSync(path.join(OUT, 'convergence.json'), JSON.stringify({ verlet: info.convergenceVerlet, rk4: info.convergenceRK4, method: 'periapsis: cubic Hermite interpolation of the rdot (- to +) zero crossing; light r_min the same; p only if step ratio in [1.8,2.2] and err(eta/2) >= 1e-9' }, null, 1));
 process.exit(nFail ? 1 : 0);

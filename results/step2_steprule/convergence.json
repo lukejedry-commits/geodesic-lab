@@ -1,0 +1,532 @@
+{
+ "verlet": [
+  {
+   "case": "rp10_ra20",
+   "pairs": [
+    {
+     "eta": 0.004,
+     "etaHalf": 0.002,
+     "dtau": 0.12649110640673492,
+     "dtauHalf": 0.06324555320336746,
+     "stepRatio": 2,
+     "err": 9.373460577696826e-7,
+     "errHalf": 2.3433860921027598e-7,
+     "p": 1.9999871035988719
+    },
+    {
+     "eta": 0.008,
+     "etaHalf": 0.004,
+     "dtau": 0.25298221281346983,
+     "dtauHalf": 0.12649110640673492,
+     "stepRatio": 2,
+     "err": 0.000003749325147655305,
+     "errHalf": 9.373460577696826e-7,
+     "p": 1.9999772655912713
+    }
+   ]
+  },
+  {
+   "case": "rp8_ra40",
+   "pairs": [
+    {
+     "eta": 0.004,
+     "etaHalf": 0.002,
+     "dtau": 0.09050966799187796,
+     "dtauHalf": 0.04525483399593898,
+     "stepRatio": 2,
+     "err": 7.56658863361328e-7,
+     "errHalf": 1.891672763068052e-7,
+     "p": 1.999980472323991
+    },
+    {
+     "eta": 0.008,
+     "etaHalf": 0.004,
+     "dtau": 0.1810193359837559,
+     "dtauHalf": 0.09050966799187796,
+     "stepRatio": 2,
+     "err": 0.0000030267459079262017,
+     "errHalf": 7.56658863361328e-7,
+     "p": 2.0000526489650423
+    }
+   ]
+  },
+  {
+   "case": "rp20_ra60",
+   "pairs": [
+    {
+     "eta": 0.004,
+     "etaHalf": 0.002,
+     "dtau": 0.3577708763999641,
+     "dtauHalf": 0.17888543819998204,
+     "stepRatio": 2,
+     "err": 0.0000027826275690654835,
+     "errHalf": 6.956616940231295e-7,
+     "p": 1.999990041862832
+    },
+    {
+     "eta": 0.008,
+     "etaHalf": 0.004,
+     "dtau": 0.7155417527999282,
+     "dtauHalf": 0.3577708763999641,
+     "stepRatio": 2,
+     "err": 0.000011131076857367842,
+     "errHalf": 0.0000027826275690654835,
+     "p": 2.000073436251155
+    }
+   ]
+  },
+  {
+   "case": "rp100_ra200",
+   "pairs": [
+    {
+     "eta": 0.004,
+     "etaHalf": 0.002,
+     "dtau": 3.9999999999998326,
+     "dtauHalf": 1.9999999999999163,
+     "stepRatio": 2,
+     "err": 0.00001605148349627555,
+     "errHalf": 0.000004012834715341887,
+     "p": 2.0000129997333067
+    },
+    {
+     "eta": 0.008,
+     "etaHalf": 0.004,
+     "dtau": 7.999999999999665,
+     "dtauHalf": 3.9999999999998326,
+     "stepRatio": 2,
+     "err": 0.00006420508829462285,
+     "errHalf": 0.00001605148349627555,
+     "p": 1.9999809973717355
+    }
+   ]
+  },
+  {
+   "case": "rp1000_ra2000",
+   "pairs": [
+    {
+     "eta": 0.004,
+     "etaHalf": 0.002,
+     "dtau": 126.4911064067158,
+     "dtauHalf": 63.2455532033579,
+     "stepRatio": 2,
+     "err": 0.00016657618435646825,
+     "errHalf": 0.00004164474376117942,
+     "p": 1.9999758304082371
+    },
+    {
+     "eta": 0.008,
+     "etaHalf": 0.004,
+     "dtau": 252.9822128134316,
+     "dtauHalf": 126.4911064067158,
+     "stepRatio": 2,
+     "err": 0.0006663362912340634,
+     "errHalf": 0.00016657618435646825,
+     "p": 2.0000683192572146
+    }
+   ]
+  }
+ ],
+ "rk4": [
+  {
+   "b": 5.248113946933699,
+   "eta": 0.001,
+   "etaHalf": 0.0005,
+   "stepRatio": 2,
+   "err": 1.8817658778730765e-11,
+   "errHalf": 1.8920762909385435e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 5.248113946933699,
+   "eta": 0.002,
+   "etaHalf": 0.001,
+   "stepRatio": 2,
+   "err": 1.6799883643372905e-11,
+   "errHalf": 1.8817658778730765e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 5.248113946933699,
+   "eta": 0.004,
+   "etaHalf": 0.002,
+   "stepRatio": 2,
+   "err": 1.806170181262729e-11,
+   "errHalf": 1.6799883643372905e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 5.248113946933699,
+   "eta": 0.008,
+   "etaHalf": 0.004,
+   "stepRatio": 2,
+   "err": 5.784832590398702e-10,
+   "errHalf": 1.806170181262729e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 5.248113946933699,
+   "eta": 0.016,
+   "etaHalf": 0.008,
+   "stepRatio": 2,
+   "err": 9.680919720246731e-9,
+   "errHalf": 5.784832590398702e-10,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 5.5,
+   "eta": 0.001,
+   "etaHalf": 0.0005,
+   "stepRatio": 2,
+   "err": 1.234864389810818e-11,
+   "errHalf": 1.2318725080927487e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 5.5,
+   "eta": 0.002,
+   "etaHalf": 0.001,
+   "stepRatio": 2,
+   "err": 1.1623634421310911e-11,
+   "errHalf": 1.234864389810818e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 5.5,
+   "eta": 0.004,
+   "etaHalf": 0.002,
+   "stepRatio": 2,
+   "err": 6.865672756523079e-13,
+   "errHalf": 1.1623634421310911e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 5.5,
+   "eta": 0.008,
+   "etaHalf": 0.004,
+   "stepRatio": 2,
+   "err": 1.7580592684615032e-10,
+   "errHalf": 6.865672756523079e-13,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 5.5,
+   "eta": 0.016,
+   "etaHalf": 0.008,
+   "stepRatio": 2,
+   "err": 3.045990768673684e-9,
+   "errHalf": 1.7580592684615032e-10,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 6,
+   "eta": 0.001,
+   "etaHalf": 0.0005,
+   "stepRatio": 2,
+   "err": 1.9018687502261694e-11,
+   "errHalf": 1.906569505472196e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 6,
+   "eta": 0.002,
+   "etaHalf": 0.001,
+   "stepRatio": 2,
+   "err": 1.8597685796161518e-11,
+   "errHalf": 1.9018687502261694e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 6,
+   "eta": 0.004,
+   "etaHalf": 0.002,
+   "stepRatio": 2,
+   "err": 1.2110126990134367e-11,
+   "errHalf": 1.8597685796161518e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 6,
+   "eta": 0.008,
+   "etaHalf": 0.004,
+   "stepRatio": 2,
+   "err": 9.314804803256827e-11,
+   "errHalf": 1.2110126990134367e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 6,
+   "eta": 0.016,
+   "etaHalf": 0.008,
+   "stepRatio": 2,
+   "err": 1.8123444162651261e-9,
+   "errHalf": 9.314804803256827e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 8,
+   "eta": 0.001,
+   "etaHalf": 0.0005,
+   "stepRatio": 2,
+   "err": 1.7232613724545139e-12,
+   "errHalf": 1.6891297044878253e-12,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 8,
+   "eta": 0.002,
+   "etaHalf": 0.001,
+   "stepRatio": 2,
+   "err": 1.437796513096755e-12,
+   "errHalf": 1.7232613724545139e-12,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 8,
+   "eta": 0.004,
+   "etaHalf": 0.002,
+   "stepRatio": 2,
+   "err": 2.467693736667365e-12,
+   "errHalf": 1.437796513096755e-12,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 8,
+   "eta": 0.008,
+   "etaHalf": 0.004,
+   "stepRatio": 2,
+   "err": 6.632390733046688e-11,
+   "errHalf": 2.467693736667365e-12,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 8,
+   "eta": 0.016,
+   "etaHalf": 0.008,
+   "stepRatio": 2,
+   "err": 1.1247159021884181e-9,
+   "errHalf": 6.632390733046688e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 10,
+   "eta": 0.001,
+   "etaHalf": 0.0005,
+   "stepRatio": 2,
+   "err": 3.6009167315978467e-12,
+   "errHalf": 3.670870307458435e-12,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 10,
+   "eta": 0.002,
+   "etaHalf": 0.001,
+   "stepRatio": 2,
+   "err": 3.3812775471753556e-12,
+   "errHalf": 3.6009167315978467e-12,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 10,
+   "eta": 0.004,
+   "etaHalf": 0.002,
+   "stepRatio": 2,
+   "err": 7.076217902241734e-13,
+   "errHalf": 3.3812775471753556e-12,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 10,
+   "eta": 0.008,
+   "etaHalf": 0.004,
+   "stepRatio": 2,
+   "err": 6.747793385466152e-11,
+   "errHalf": 7.076217902241734e-13,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 10,
+   "eta": 0.016,
+   "etaHalf": 0.008,
+   "stepRatio": 2,
+   "err": 1.1756689432363166e-9,
+   "errHalf": 6.747793385466152e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 20,
+   "eta": 0.001,
+   "etaHalf": 0.0005,
+   "stepRatio": 2,
+   "err": 1.3564189655940836e-13,
+   "errHalf": 7.169978934249489e-14,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 20,
+   "eta": 0.002,
+   "etaHalf": 0.001,
+   "stepRatio": 2,
+   "err": 5.69601933038902e-13,
+   "errHalf": 1.3564189655940836e-13,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 20,
+   "eta": 0.004,
+   "etaHalf": 0.002,
+   "stepRatio": 2,
+   "err": 1.1657915584536604e-11,
+   "errHalf": 5.69601933038902e-13,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 20,
+   "eta": 0.008,
+   "etaHalf": 0.004,
+   "stepRatio": 2,
+   "err": 1.907973709033565e-10,
+   "errHalf": 1.1657915584536604e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 20,
+   "eta": 0.016,
+   "etaHalf": 0.008,
+   "stepRatio": 2,
+   "err": 3.1110089590470353e-9,
+   "errHalf": 1.907973709033565e-10,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 100,
+   "eta": 0.001,
+   "etaHalf": 0.0005,
+   "stepRatio": 2,
+   "err": 4.940416998039661e-13,
+   "errHalf": 2.13944463526692e-13,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 100,
+   "eta": 0.002,
+   "etaHalf": 0.001,
+   "stepRatio": 2,
+   "err": 6.289899896618331e-12,
+   "errHalf": 4.940416998039661e-13,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 100,
+   "eta": 0.004,
+   "etaHalf": 0.002,
+   "stepRatio": 2,
+   "err": 9.625497759475358e-11,
+   "errHalf": 6.289899896618331e-12,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 100,
+   "eta": 0.008,
+   "etaHalf": 0.004,
+   "stepRatio": 2,
+   "err": 1.5385510579808205e-9,
+   "errHalf": 9.625497759475358e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 100,
+   "eta": 0.016,
+   "etaHalf": 0.008,
+   "stepRatio": 2,
+   "err": 2.4787440414762157e-8,
+   "errHalf": 1.5385510579808205e-9,
+   "p": 4.00996507793387,
+   "rule": "ok"
+  },
+  {
+   "b": 1000,
+   "eta": 0.001,
+   "etaHalf": 0.0005,
+   "stepRatio": 2,
+   "err": 4.762267215076426e-12,
+   "errHalf": 2.3269751684690414e-12,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 1000,
+   "eta": 0.002,
+   "etaHalf": 0.001,
+   "stepRatio": 2,
+   "err": 6.553387328723344e-11,
+   "errHalf": 4.762267215076426e-12,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 1000,
+   "eta": 0.004,
+   "etaHalf": 0.002,
+   "stepRatio": 2,
+   "err": 1.0729699149314975e-9,
+   "errHalf": 6.553387328723344e-11,
+   "p": null,
+   "rule": "err(eta/2) < 1e-9: no p reported"
+  },
+  {
+   "b": 1000,
+   "eta": 0.008,
+   "etaHalf": 0.004,
+   "stepRatio": 2,
+   "err": 1.7145011861796016e-8,
+   "errHalf": 1.0729699149314975e-9,
+   "p": 3.998107372443652,
+   "rule": "ok"
+  },
+  {
+   "b": 1000,
+   "eta": 0.016,
+   "etaHalf": 0.008,
+   "stepRatio": 2,
+   "err": 2.765693677107409e-7,
+   "errHalf": 1.7145011861796016e-8,
+   "p": 4.011780567702385,
+   "rule": "ok"
+  }
+ ],
+ "method": "periapsis: cubic Hermite interpolation of the rdot (- to +) zero crossing; light r_min the same; p only if step ratio in [1.8,2.2] and err(eta/2) >= 1e-9"
+}
