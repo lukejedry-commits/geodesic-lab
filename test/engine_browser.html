@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8"><title>engine browser check</title>
+<body style="background:#111;color:#eee;font:14px monospace"><canvas id="c" width="500" height="500"></canvas><pre id="o">running</pre>
+<script src="../src/engine.js"></script><script src="../src/analysis.js"></script>
+<script>
+// Engine loaded as a plain script (window.GeodesicEngine); draws one eccentric orbit and one light ray with Canvas2D. No UI yet.
+try {
+  const GE = window.GeodesicEngine, ctx = document.getElementById('c').getContext('2d'), cx = 250, cy = 250, sc = 7;
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, 500, 500);
+  ctx.fillStyle = '#888'; ctx.beginPath(); ctx.arc(cx, cy, 2 * sc, 0, 7); ctx.fill();
+  ctx.setLineDash([4, 4]); ctx.strokeStyle = '#fa0'; ctx.beginPath(); ctx.arc(cx, cy, 3 * sc, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+  const b = GE.launchState('massive', { r: 10, rdot: 0, L: 4.170288281141495, E: 0.9690874237046979 });
+  ctx.strokeStyle = '#4af'; ctx.beginPath(); let n = 0;
+  while (n < 4000) { GE.step(b); const x = cx + b.r * Math.cos(b.phi) * sc, y = cy - b.r * Math.sin(b.phi) * sc; n ? ctx.lineTo(x, y) : ctx.moveTo(x, y); n++; }
+  ctx.stroke();
+  const l = GE.launchLight({ r: 30, phi: 0, alpha: 2.9 }); ctx.strokeStyle = '#fd4'; ctx.beginPath(); ctx.moveTo(cx + 30 * sc, cy);
+  while (l.alive && l.r < 35 && l.steps < 20000) { GE.stepRK4(l); ctx.lineTo(cx + l.r * Math.cos(l.phi) * sc, cy - l.r * Math.sin(l.phi) * sc); } ctx.stroke();
+  document.getElementById('o').textContent = 'OK method=' + b.method + ' r=' + b.r.toFixed(6) + ' tau=' + b.par.toFixed(3) + ' light r=' + l.r.toFixed(3);
+} catch (e) { document.getElementById('o').textContent = 'ERROR ' + e; console.error(e); }
+</script>

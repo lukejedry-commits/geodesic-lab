@@ -1,0 +1,2158 @@
+{
+ "step": "step1_core",
+ "when": "2026-10-09T10:18:09.877Z",
+ "info": {
+  "engine": {
+   "ETA_VERLET": 0.002,
+   "ETA_RK4": 0.0005,
+   "R_CUT": 0.05,
+   "FAR_R": 100
+  },
+  "notes": [
+   "Weak-field formula asserted only where M/p_semi <= 1e-3: of the 5 ref cases only (1000,2000) qualifies (p_semi=1333.3); the others are strong field and are NOT asserted against 6piM/p.",
+   "E.*_inward FAIL diagnosis: for massive plunges with L != 0, rdot ~ L/r near the cutoff (|V^2| ~ 2.6e5 at r=0.05, L=4), so the NM step h ~ eta r^(3/2) moves r by ~6% per step there; the residual (relative to E^2 = 1) is ~O(1). The optional rule r32+L (h <= r^2/|L|, r/|rdot|) cures that (see info.plungeResidualDiagnostic) but reaches ~1e-9 and then PLATEAUS (eta 2e-4, 1e-4, 5e-5 give ~1.5e-9, 1.2e-9, 1.7e-9: no eta^4 decrease), consistent with a round-off floor of the cancellation rdot^2 + V^2 (terms ~2.6e5) but not proven here; it does not reach 1e-10. No assert was loosened.",
+   "F: \"distance b/tan(delta/2) past the apex\" is implemented as the x-coordinate in the unrolled plane (wedge centred on +x). The radial distance along the cone surface to the seam point is b/sin(delta/2). Validation to confirm this reading."
+  ],
+  "convergenceVerlet": [
+   {
+    "case": "rp10_ra20",
+    "pairs": [
+     {
+      "eta": 0.004,
+      "etaHalf": 0.002,
+      "dtau": 0.12649110640673492,
+      "dtauHalf": 0.06324555320336746,
+      "stepRatio": 2,
+      "err": 9.373460577696826e-7,
+      "errHalf": 2.3433860921027598e-7,
+      "p": 1.9999871035988719
+     },
+     {
+      "eta": 0.008,
+      "etaHalf": 0.004,
+      "dtau": 0.25298221281346983,
+      "dtauHalf": 0.12649110640673492,
+      "stepRatio": 2,
+      "err": 0.000003749325147655305,
+      "errHalf": 9.373460577696826e-7,
+      "p": 1.9999772655912713
+     }
+    ]
+   },
+   {
+    "case": "rp8_ra40",
+    "pairs": [
+     {
+      "eta": 0.004,
+      "etaHalf": 0.002,
+      "dtau": 0.09050966799187796,
+      "dtauHalf": 0.04525483399593898,
+      "stepRatio": 2,
+      "err": 7.56658863361328e-7,
+      "errHalf": 1.891672763068052e-7,
+      "p": 1.999980472323991
+     },
+     {
+      "eta": 0.008,
+      "etaHalf": 0.004,
+      "dtau": 0.1810193359837559,
+      "dtauHalf": 0.09050966799187796,
+      "stepRatio": 2,
+      "err": 0.0000030267459079262017,
+      "errHalf": 7.56658863361328e-7,
+      "p": 2.0000526489650423
+     }
+    ]
+   },
+   {
+    "case": "rp20_ra60",
+    "pairs": [
+     {
+      "eta": 0.004,
+      "etaHalf": 0.002,
+      "dtau": 0.3577708763999641,
+      "dtauHalf": 0.17888543819998204,
+      "stepRatio": 2,
+      "err": 0.0000027826275690654835,
+      "errHalf": 6.956616940231295e-7,
+      "p": 1.999990041862832
+     },
+     {
+      "eta": 0.008,
+      "etaHalf": 0.004,
+      "dtau": 0.7155417527999282,
+      "dtauHalf": 0.3577708763999641,
+      "stepRatio": 2,
+      "err": 0.000011131076857367842,
+      "errHalf": 0.0000027826275690654835,
+      "p": 2.000073436251155
+     }
+    ]
+   },
+   {
+    "case": "rp100_ra200",
+    "pairs": [
+     {
+      "eta": 0.004,
+      "etaHalf": 0.002,
+      "dtau": 3.9999999999998326,
+      "dtauHalf": 1.9999999999999163,
+      "stepRatio": 2,
+      "err": 0.00001605148349627555,
+      "errHalf": 0.000004012834715341887,
+      "p": 2.0000129997333067
+     },
+     {
+      "eta": 0.008,
+      "etaHalf": 0.004,
+      "dtau": 7.999999999999665,
+      "dtauHalf": 3.9999999999998326,
+      "stepRatio": 2,
+      "err": 0.00006420508829462285,
+      "errHalf": 0.00001605148349627555,
+      "p": 1.9999809973717355
+     }
+    ]
+   },
+   {
+    "case": "rp1000_ra2000",
+    "pairs": [
+     {
+      "eta": 0.004,
+      "etaHalf": 0.002,
+      "dtau": 126.4911064067158,
+      "dtauHalf": 63.2455532033579,
+      "stepRatio": 2,
+      "err": 0.00016657618435646825,
+      "errHalf": 0.00004164474376117942,
+      "p": 1.9999758304082371
+     },
+     {
+      "eta": 0.008,
+      "etaHalf": 0.004,
+      "dtau": 252.9822128134316,
+      "dtauHalf": 126.4911064067158,
+      "stepRatio": 2,
+      "err": 0.0006663362912340634,
+      "errHalf": 0.00016657618435646825,
+      "p": 2.0000683192572146
+     }
+    ]
+   }
+  ],
+  "convergenceRK4": [
+   {
+    "b": 5.248113946933699,
+    "eta": 0.001,
+    "etaHalf": 0.0005,
+    "stepRatio": 2,
+    "err": 1.3845603819840522e-10,
+    "errHalf": 2.6329561153291776e-11,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 5.248113946933699,
+    "eta": 0.002,
+    "etaHalf": 0.001,
+    "stepRatio": 2,
+    "err": 1.977498588156052e-9,
+    "errHalf": 1.3845603819840522e-10,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 5.248113946933699,
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 3.2924850587312996e-8,
+    "errHalf": 1.977498588156052e-9,
+    "p": 4.057428323766531,
+    "rule": "ok"
+   },
+   {
+    "b": 5.248113946933699,
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "stepRatio": 2,
+    "err": 5.813864294528765e-7,
+    "errHalf": 3.2924850587312996e-8,
+    "p": 4.142248598241883,
+    "rule": "ok"
+   },
+   {
+    "b": 5.248113946933699,
+    "eta": 0.016,
+    "etaHalf": 0.008,
+    "stepRatio": 2,
+    "err": 0.000011397499483318005,
+    "errHalf": 5.813864294528765e-7,
+    "p": 4.293076136662261,
+    "rule": "ok"
+   },
+   {
+    "b": 5.5,
+    "eta": 0.001,
+    "etaHalf": 0.0005,
+    "stepRatio": 2,
+    "err": 2.2844234543740038e-11,
+    "errHalf": 1.2968937514773021e-11,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 5.5,
+    "eta": 0.002,
+    "etaHalf": 0.001,
+    "stepRatio": 2,
+    "err": 1.9414337863213115e-10,
+    "errHalf": 2.2844234543740038e-11,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 5.5,
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 3.363047432201953e-9,
+    "errHalf": 1.9414337863213115e-10,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 5.5,
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "stepRatio": 2,
+    "err": 6.832860633169061e-8,
+    "errHalf": 3.363047432201953e-9,
+    "p": 4.344648669303577,
+    "rule": "ok"
+   },
+   {
+    "b": 5.5,
+    "eta": 0.016,
+    "etaHalf": 0.008,
+    "stepRatio": 2,
+    "err": 0.000001614586468707079,
+    "errHalf": 6.832860633169061e-8,
+    "p": 4.562531194806327,
+    "rule": "ok"
+   },
+   {
+    "b": 6,
+    "eta": 0.001,
+    "etaHalf": 0.0005,
+    "stepRatio": 2,
+    "err": 3.2887206894316313e-12,
+    "errHalf": 1.7644620584192406e-11,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 6,
+    "eta": 0.002,
+    "etaHalf": 0.001,
+    "stepRatio": 2,
+    "err": 3.306622301854823e-10,
+    "errHalf": 3.2887206894316313e-12,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 6,
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 5.326067530397582e-9,
+    "errHalf": 3.306622301854823e-10,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 6,
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "stepRatio": 2,
+    "err": 7.808747625698679e-8,
+    "errHalf": 5.326067530397582e-9,
+    "p": 3.8739485601007124,
+    "rule": "ok"
+   },
+   {
+    "b": 6,
+    "eta": 0.016,
+    "etaHalf": 0.008,
+    "stepRatio": 2,
+    "err": 0.0000010442268481683555,
+    "errHalf": 7.808747625698679e-8,
+    "p": 3.7412001611240187,
+    "rule": "ok"
+   },
+   {
+    "b": 8,
+    "eta": 0.001,
+    "etaHalf": 0.0005,
+    "stepRatio": 2,
+    "err": 9.420844576628275e-11,
+    "errHalf": 4.2870150685887335e-12,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 8,
+    "eta": 0.002,
+    "etaHalf": 0.001,
+    "stepRatio": 2,
+    "err": 1.5271127531211458e-9,
+    "errHalf": 9.420844576628275e-11,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 8,
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 2.4336902046708345e-8,
+    "errHalf": 1.5271127531211458e-9,
+    "p": 3.9942670412357875,
+    "rule": "ok"
+   },
+   {
+    "b": 8,
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "stepRatio": 2,
+    "err": 3.8800083622587695e-7,
+    "errHalf": 2.4336902046708345e-8,
+    "p": 3.994842323999338,
+    "rule": "ok"
+   },
+   {
+    "b": 8,
+    "eta": 0.016,
+    "etaHalf": 0.008,
+    "stepRatio": 2,
+    "err": 0.000006360573613374616,
+    "errHalf": 3.8800083622587695e-7,
+    "p": 4.0350252105876265,
+    "rule": "ok"
+   },
+   {
+    "b": 10,
+    "eta": 0.001,
+    "etaHalf": 0.0005,
+    "stepRatio": 2,
+    "err": 1.6841943944351446e-10,
+    "errHalf": 7.132820123569791e-12,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 10,
+    "eta": 0.002,
+    "etaHalf": 0.001,
+    "stepRatio": 2,
+    "err": 2.7452383861119856e-9,
+    "errHalf": 1.6841943944351446e-10,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 10,
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 4.3879880135348124e-8,
+    "errHalf": 2.7452383861119856e-9,
+    "p": 3.998556246842569,
+    "rule": "ok"
+   },
+   {
+    "b": 10,
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "stepRatio": 2,
+    "err": 7.048154263282556e-7,
+    "errHalf": 4.3879880135348124e-8,
+    "p": 4.005614011022447,
+    "rule": "ok"
+   },
+   {
+    "b": 10,
+    "eta": 0.016,
+    "etaHalf": 0.008,
+    "stepRatio": 2,
+    "err": 0.000011711148641843498,
+    "errHalf": 7.048154263282556e-7,
+    "p": 4.054493272671038,
+    "rule": "ok"
+   },
+   {
+    "b": 20,
+    "eta": 0.001,
+    "etaHalf": 0.0005,
+    "stepRatio": 2,
+    "err": 5.918949255737811e-10,
+    "errHalf": 3.6869912330123135e-11,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 20,
+    "eta": 0.002,
+    "etaHalf": 0.001,
+    "stepRatio": 2,
+    "err": 9.46682432600484e-9,
+    "errHalf": 5.918949255737811e-10,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 20,
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 1.5162793090411277e-7,
+    "errHalf": 9.46682432600484e-9,
+    "p": 4.001511171514658,
+    "rule": "ok"
+   },
+   {
+    "b": 20,
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "stepRatio": 2,
+    "err": 0.0000024486858135656457,
+    "errHalf": 1.5162793090411277e-7,
+    "p": 4.013400238776913,
+    "rule": "ok"
+   },
+   {
+    "b": 20,
+    "eta": 0.016,
+    "etaHalf": 0.008,
+    "stepRatio": 2,
+    "err": 0.00004110041575084271,
+    "errHalf": 0.0000024486858135656457,
+    "p": 4.069073406242286,
+    "rule": "ok"
+   },
+   {
+    "b": 100,
+    "eta": 0.001,
+    "etaHalf": 0.0005,
+    "stepRatio": 2,
+    "err": 4.292380901293971e-9,
+    "errHalf": 2.672651133126555e-10,
+    "p": null,
+    "rule": "err(eta/2) < 1e-9: no p reported"
+   },
+   {
+    "b": 100,
+    "eta": 0.002,
+    "etaHalf": 0.001,
+    "stepRatio": 2,
+    "err": 6.866027710558172e-8,
+    "errHalf": 4.292380901293971e-9,
+    "p": 3.999625669766916,
+    "rule": "ok"
+   },
+   {
+    "b": 100,
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 0.000001102197285249147,
+    "errHalf": 6.866027710558172e-8,
+    "p": 4.004762988782517,
+    "rule": "ok"
+   },
+   {
+    "b": 100,
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "stepRatio": 2,
+    "err": 0.00001796757954180476,
+    "errHalf": 0.000001102197285249147,
+    "p": 4.026941688839314,
+    "rule": "ok"
+   },
+   {
+    "b": 100,
+    "eta": 0.016,
+    "etaHalf": 0.008,
+    "stepRatio": 2,
+    "err": 0.0003070435662536312,
+    "errHalf": 0.00001796757954180476,
+    "p": 4.094975395433316,
+    "rule": "ok"
+   },
+   {
+    "b": 1000,
+    "eta": 0.001,
+    "etaHalf": 0.0005,
+    "stepRatio": 2,
+    "err": 4.474351245543934e-8,
+    "errHalf": 2.7863085648128204e-9,
+    "p": 4.00525157468678,
+    "rule": "ok"
+   },
+   {
+    "b": 1000,
+    "eta": 0.002,
+    "etaHalf": 0.001,
+    "stepRatio": 2,
+    "err": 7.153938292816468e-7,
+    "errHalf": 4.474351245543934e-8,
+    "p": 3.998987253832902,
+    "rule": "ok"
+   },
+   {
+    "b": 1000,
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 0.000011481909298272968,
+    "errHalf": 7.153938292816468e-7,
+    "p": 4.0044810796822725,
+    "rule": "ok"
+   },
+   {
+    "b": 1000,
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "stepRatio": 2,
+    "err": 0.00018697102809169997,
+    "errHalf": 0.000011481909298272968,
+    "p": 4.025380266805151,
+    "rule": "ok"
+   },
+   {
+    "b": 1000,
+    "eta": 0.016,
+    "etaHalf": 0.008,
+    "stepRatio": 2,
+    "err": 0.0032063347237680884,
+    "errHalf": 0.00018697102809169997,
+    "p": 4.100038401628379,
+    "rule": "ok"
+   }
+  ],
+  "plungeResidualDiagnostic": [
+   {
+    "rule": "r32",
+    "eta": 0.0005,
+    "case": "r4_inward",
+    "steps": 15946,
+    "residualMaxByRadiusDecade": {
+     "r_decade_1e0": 6.612863592116431e-10,
+     "r_decade_1e-1": 0.024193962784863198,
+     "r_decade_1e-2": 3.1446449823999467
+    },
+    "maxResidualScaledByLargestTerm": 0.000012666199367593625
+   },
+   {
+    "rule": "r32",
+    "eta": 0.0005,
+    "case": "r5_inward",
+    "steps": 31476,
+    "residualMaxByRadiusDecade": {
+     "r_decade_1e0": 3.6062005235438133e-10,
+     "r_decade_1e-1": 0.01350868624910115,
+     "r_decade_1e-2": 1.6598157718692257
+    },
+    "maxResidualScaledByLargestTerm": 0.000008517933017771334
+   },
+   {
+    "rule": "r32+L",
+    "eta": 0.0005,
+    "case": "r4_inward",
+    "steps": 38737,
+    "residualMaxByRadiusDecade": {
+     "r_decade_1e0": 3.153255435525836e-12,
+     "r_decade_1e-1": 5.3220203816130335e-9,
+     "r_decade_1e-2": 4.187279346788645e-8
+    },
+    "maxResidualScaledByLargestTerm": 2.1485859237574695e-13
+   },
+   {
+    "rule": "r32+L",
+    "eta": 0.0005,
+    "case": "r5_inward",
+    "steps": 57480,
+    "residualMaxByRadiusDecade": {
+     "r_decade_1e0": 2.735466174684124e-12,
+     "r_decade_1e-1": 4.540989683244553e-9,
+     "r_decade_1e-2": 3.602971735936021e-8
+    },
+    "maxResidualScaledByLargestTerm": 2.339548612818388e-13
+   },
+   {
+    "rule": "r32+L",
+    "eta": 0.0002,
+    "case": "r4_inward",
+    "steps": 96849,
+    "residualMaxByRadiusDecade": {
+     "r_decade_1e0": 6.772360452329978e-14,
+     "r_decade_1e-1": 1.5972845273655495e-10,
+     "r_decade_1e-2": 1.5348844422469912e-9
+    },
+    "maxResidualScaledByLargestTerm": 1.731947919497793e-14
+   },
+   {
+    "rule": "r32+L",
+    "eta": 0.0002,
+    "case": "r5_inward",
+    "steps": 143707,
+    "residualMaxByRadiusDecade": {
+     "r_decade_1e0": 1.5012682455876344e-13,
+     "r_decade_1e-1": 2.037105052635398e-10,
+     "r_decade_1e-2": 6.896154018509095e-10
+    },
+    "maxResidualScaledByLargestTerm": 1.767810370926362e-14
+   },
+   {
+    "rule": "r32+L",
+    "eta": 0.0001,
+    "case": "r4_inward",
+    "steps": 193702,
+    "residualMaxByRadiusDecade": {
+     "r_decade_1e0": 2.0450308119986586e-13,
+     "r_decade_1e-1": 2.0702217724352762e-10,
+     "r_decade_1e-2": 1.229979452006796e-9
+    },
+    "maxResidualScaledByLargestTerm": 4.0634162726678996e-14
+   },
+   {
+    "rule": "r32+L",
+    "eta": 0.0001,
+    "case": "r5_inward",
+    "steps": 287418,
+    "residualMaxByRadiusDecade": {
+     "r_decade_1e0": 1.3433698598561492e-13,
+     "r_decade_1e-1": 2.0050936220906167e-10,
+     "r_decade_1e-2": 2.9370778649985738e-9
+    },
+    "maxResidualScaledByLargestTerm": 2.3663313734447502e-14
+   },
+   {
+    "rule": "r32+L",
+    "eta": 0.00005,
+    "case": "r4_inward",
+    "steps": 387409,
+    "residualMaxByRadiusDecade": {
+     "r_decade_1e0": 4.563016632635444e-13,
+     "r_decade_1e-1": 3.0229485590848576e-10,
+     "r_decade_1e-2": 1.7247445699258946e-9
+    },
+    "maxResidualScaledByLargestTerm": 2.6201385729774133e-14
+   },
+   {
+    "rule": "r32+L",
+    "eta": 0.00005,
+    "case": "r5_inward",
+    "steps": 574841,
+    "residualMaxByRadiusDecade": {
+     "r_decade_1e0": 3.534209961880503e-13,
+     "r_decade_1e-1": 1.9562610791408778e-10,
+     "r_decade_1e-2": 1.848885365877028e-9
+    },
+    "maxResidualScaledByLargestTerm": 3.329872300737504e-14
+   }
+  ]
+ },
+ "checks": [
+  {
+   "id": "A.r8.method",
+   "desc": "r=8: integrator chosen (Verlet expected for bound outside-2M orbit)",
+   "measured": "verlet",
+   "op": "==",
+   "threshold": "verlet",
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r8.dr",
+   "desc": "r=8: max |r-r0|/r0 over 100 orbits (248365 steps, orbits=100)",
+   "measured": 5.551115123125783e-16,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r8.Omega",
+   "desc": "r=8: |Omega-ref|/ref, Omega=dphi/dT (meas 0.0441942 ref 0.0441942)",
+   "measured": 1.622533546803813e-12,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r8.dtaudT",
+   "desc": "r=8: |dtau/dT-ref|/ref (meas 0.790569 ref 0.790569)",
+   "measured": 4.585148509961171e-13,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r10.method",
+   "desc": "r=10: integrator chosen (Verlet expected for bound outside-2M orbit)",
+   "measured": "verlet",
+   "op": "==",
+   "threshold": "verlet",
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r10.dr",
+   "desc": "r=10: max |r-r0|/r0 over 100 orbits (262845 steps, orbits=100)",
+   "measured": 0,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r10.Omega",
+   "desc": "r=10: |Omega-ref|/ref, Omega=dphi/dT (meas 0.0316228 ref 0.0316228)",
+   "measured": 4.488161735391741e-12,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r10.dtaudT",
+   "desc": "r=10: |dtau/dT-ref|/ref (meas 0.83666 ref 0.83666)",
+   "measured": 3.8575027253962917e-13,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r20.method",
+   "desc": "r=20: integrator chosen (Verlet expected for bound outside-2M orbit)",
+   "measured": "verlet",
+   "op": "==",
+   "threshold": "verlet",
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r20.dr",
+   "desc": "r=20: max |r-r0|/r0 over 100 orbits (289641 steps, orbits=100)",
+   "measured": 7.105427357601002e-16,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r20.Omega",
+   "desc": "r=20: |Omega-ref|/ref, Omega=dphi/dT (meas 0.0111803 ref 0.0111803)",
+   "measured": 4.948000884190971e-13,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r20.dtaudT",
+   "desc": "r=20: |dtau/dT-ref|/ref (meas 0.921954 ref 0.921954)",
+   "measured": 1.906017169846891e-12,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r100.method",
+   "desc": "r=100: integrator chosen (Verlet expected for bound outside-2M orbit)",
+   "measured": "verlet",
+   "op": "==",
+   "threshold": "verlet",
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r100.dr",
+   "desc": "r=100: max |r-r0|/r0 over 100 orbits (309412 steps, orbits=100)",
+   "measured": 0,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r100.Omega",
+   "desc": "r=100: |Omega-ref|/ref, Omega=dphi/dT (meas 0.001 ref 0.001)",
+   "measured": 1.0136206110566981e-11,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r100.dtaudT",
+   "desc": "r=100: |dtau/dT-ref|/ref (meas 0.984886 ref 0.984886)",
+   "measured": 1.4422173274208385e-12,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r4.first",
+   "desc": "r=4 (E=1 exactly, rk4): first orbit max |r-r0|/r0 (orbits=1.00013)",
+   "measured": 0,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r4.refEL",
+   "desc": "r=4: ref E, L equal the exact (1, 4)",
+   "measured": 0,
+   "op": "<=",
+   "threshold": 0,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r4.inward",
+   "desc": "r=4 kick -1e-4 (rk4, E=1): orbits before crossing 2M",
+   "measured": 2.456504132804663,
+   "op": "<=",
+   "threshold": 20,
+   "pass": true,
+   "extra": {
+    "crossed": {
+     "orbits": 2.456504132804663,
+     "T": 114.40745782224826,
+     "tau": 55.984233997677784
+    },
+    "steps": 15946,
+    "residualMax": 3.1446449823999467
+   }
+  },
+  {
+   "id": "A.r4.outward",
+   "desc": "r=4 kick +1e-4 (verlet, E=1): max r reached (escape needs > 1000)",
+   "measured": 1000.000013520637,
+   "op": ">=",
+   "threshold": 1000,
+   "pass": true,
+   "extra": {
+    "steps": 946334,
+    "orbits": 2.8246200386070193,
+    "minR": "n/a"
+   }
+  },
+  {
+   "id": "A.r5.first",
+   "desc": "r=5 (verlet): first orbit max |r-r0|/r0 (orbits=1.00004)",
+   "measured": 0,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r6.first",
+   "desc": "r=6 (rk4): first orbit max |r-r0|/r0 (orbits=1.00003)",
+   "measured": 0,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "A.r5.inward",
+   "desc": "r=5 kick -1e-4 (rk4): orbits before crossing 2M (no clamping of r)",
+   "measured": 3.9530839723354743,
+   "op": "<=",
+   "threshold": 20,
+   "pass": true,
+   "extra": {
+    "crossed": {
+     "orbits": 3.9530839723354743,
+     "T": 255.5365322508022,
+     "tau": 158.43786710417837
+    },
+    "steps": 31476,
+    "residualMax": 1.6598157718692257
+   }
+  },
+  {
+   "id": "A.ui.launch",
+   "desc": "UI launch r=20, v=sqrt(M/(r-2M))=0.235702: max |r-r0|/r0 over 10 orbits (verlet)",
+   "measured": 0,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": {
+    "E": 0.9761870601839528,
+    "Eref": 0.9761870601839527,
+    "L": 4.85071250072666,
+    "Lref": 4.85071250072666
+   }
+  },
+  {
+   "id": "A.ui.EL",
+   "desc": "UI launch r=20: |E-Eref|/Eref and |L-Lref|/Lref (max)",
+   "measured": 1.137305614782423e-16,
+   "op": "<=",
+   "threshold": 1e-14,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "B.rp10_ra20.shift",
+   "desc": "(10,20) periapsis shift/period, eta=0.002, mean over 20 periods; sim 2.20225 ref 2.20225",
+   "measured": 2.3433860921027598e-7,
+   "op": "<=",
+   "threshold": 0.0001,
+   "pass": true,
+   "extra": {
+    "sim": 2.2022476710769183,
+    "ref": 2.2022481871486956,
+    "eta": 0.002,
+    "dtau": 0.06324555320336746,
+    "periods": 20,
+    "method": "cubic Hermite interpolation of the rdot (-to+) zero crossing, phi by cubic Hermite at the root"
+   }
+  },
+  {
+   "id": "B.rp10_ra20.p0",
+   "desc": "(10,20) convergence eta=0.004 -> 0.002 (dtau 0.126491 -> 0.0632456, step ratio 2); err 9.373e-7 -> 2.343e-7; p",
+   "measured": 1.9999871035988719,
+   "op": "in",
+   "threshold": [
+    1.8,
+    2.2
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "dtau": 0.12649110640673492,
+    "dtauHalf": 0.06324555320336746,
+    "stepRatio": 2,
+    "err": 9.373460577696826e-7,
+    "errHalf": 2.3433860921027598e-7,
+    "p": 1.9999871035988719
+   }
+  },
+  {
+   "id": "B.rp10_ra20.p1",
+   "desc": "(10,20) convergence eta=0.008 -> 0.004 (dtau 0.252982 -> 0.126491, step ratio 2); err 3.749e-6 -> 9.373e-7; p",
+   "measured": 1.9999772655912713,
+   "op": "in",
+   "threshold": [
+    1.8,
+    2.2
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "dtau": 0.25298221281346983,
+    "dtauHalf": 0.12649110640673492,
+    "stepRatio": 2,
+    "err": 0.000003749325147655305,
+    "errHalf": 9.373460577696826e-7,
+    "p": 1.9999772655912713
+   }
+  },
+  {
+   "id": "B.rp8_ra40.shift",
+   "desc": "(8,40) periapsis shift/period, eta=0.002, mean over 20 periods; sim 2.24255 ref 2.24255",
+   "measured": 1.891672763068052e-7,
+   "op": "<=",
+   "threshold": 0.0001,
+   "pass": true,
+   "extra": {
+    "sim": 2.2425450342751354,
+    "ref": 2.242545458491352,
+    "eta": 0.002,
+    "dtau": 0.04525483399593898,
+    "periods": 20,
+    "method": "cubic Hermite interpolation of the rdot (-to+) zero crossing, phi by cubic Hermite at the root"
+   }
+  },
+  {
+   "id": "B.rp8_ra40.p0",
+   "desc": "(8,40) convergence eta=0.004 -> 0.002 (dtau 0.0905097 -> 0.0452548, step ratio 2); err 7.567e-7 -> 1.892e-7; p",
+   "measured": 1.999980472323991,
+   "op": "in",
+   "threshold": [
+    1.8,
+    2.2
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "dtau": 0.09050966799187796,
+    "dtauHalf": 0.04525483399593898,
+    "stepRatio": 2,
+    "err": 7.56658863361328e-7,
+    "errHalf": 1.891672763068052e-7,
+    "p": 1.999980472323991
+   }
+  },
+  {
+   "id": "B.rp8_ra40.p1",
+   "desc": "(8,40) convergence eta=0.008 -> 0.004 (dtau 0.181019 -> 0.0905097, step ratio 2); err 3.027e-6 -> 7.567e-7; p",
+   "measured": 2.0000526489650423,
+   "op": "in",
+   "threshold": [
+    1.8,
+    2.2
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "dtau": 0.1810193359837559,
+    "dtauHalf": 0.09050966799187796,
+    "stepRatio": 2,
+    "err": 0.0000030267459079262017,
+    "errHalf": 7.56658863361328e-7,
+    "p": 2.0000526489650423
+   }
+  },
+  {
+   "id": "B.rp20_ra60.shift",
+   "desc": "(20,60) periapsis shift/period, eta=0.002, mean over 20 periods; sim 0.743918 ref 0.743918",
+   "measured": 6.956616940231295e-7,
+   "op": "<=",
+   "threshold": 0.0001,
+   "pass": true,
+   "extra": {
+    "sim": 0.7439178035828391,
+    "ref": 0.7439183210983186,
+    "eta": 0.002,
+    "dtau": 0.17888543819998204,
+    "periods": 20,
+    "method": "cubic Hermite interpolation of the rdot (-to+) zero crossing, phi by cubic Hermite at the root"
+   }
+  },
+  {
+   "id": "B.rp20_ra60.p0",
+   "desc": "(20,60) convergence eta=0.004 -> 0.002 (dtau 0.357771 -> 0.178885, step ratio 2); err 2.783e-6 -> 6.957e-7; p",
+   "measured": 1.999990041862832,
+   "op": "in",
+   "threshold": [
+    1.8,
+    2.2
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "dtau": 0.3577708763999641,
+    "dtauHalf": 0.17888543819998204,
+    "stepRatio": 2,
+    "err": 0.0000027826275690654835,
+    "errHalf": 6.956616940231295e-7,
+    "p": 1.999990041862832
+   }
+  },
+  {
+   "id": "B.rp20_ra60.p1",
+   "desc": "(20,60) convergence eta=0.008 -> 0.004 (dtau 0.715542 -> 0.357771, step ratio 2); err 1.113e-5 -> 2.783e-6; p",
+   "measured": 2.000073436251155,
+   "op": "in",
+   "threshold": [
+    1.8,
+    2.2
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "dtau": 0.7155417527999282,
+    "dtauHalf": 0.3577708763999641,
+    "stepRatio": 2,
+    "err": 0.000011131076857367842,
+    "errHalf": 0.0000027826275690654835,
+    "p": 2.000073436251155
+   }
+  },
+  {
+   "id": "B.rp100_ra200.shift",
+   "desc": "(100,200) periapsis shift/period, eta=0.002, mean over 20 periods; sim 0.146362 ref 0.146362",
+   "measured": 0.000004012834715341887,
+   "op": "<=",
+   "threshold": 0.0001,
+   "pass": true,
+   "extra": {
+    "sim": 0.14636168819480844,
+    "ref": 0.14636227552242867,
+    "eta": 0.002,
+    "dtau": 1.9999999999999163,
+    "periods": 20,
+    "method": "cubic Hermite interpolation of the rdot (-to+) zero crossing, phi by cubic Hermite at the root"
+   }
+  },
+  {
+   "id": "B.rp100_ra200.p0",
+   "desc": "(100,200) convergence eta=0.004 -> 0.002 (dtau 4 -> 2, step ratio 2); err 1.605e-5 -> 4.013e-6; p",
+   "measured": 2.0000129997333067,
+   "op": "in",
+   "threshold": [
+    1.8,
+    2.2
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "dtau": 3.9999999999998326,
+    "dtauHalf": 1.9999999999999163,
+    "stepRatio": 2,
+    "err": 0.00001605148349627555,
+    "errHalf": 0.000004012834715341887,
+    "p": 2.0000129997333067
+   }
+  },
+  {
+   "id": "B.rp100_ra200.p1",
+   "desc": "(100,200) convergence eta=0.008 -> 0.004 (dtau 8 -> 4, step ratio 2); err 6.421e-5 -> 1.605e-5; p",
+   "measured": 1.9999809973717355,
+   "op": "in",
+   "threshold": [
+    1.8,
+    2.2
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "dtau": 7.999999999999665,
+    "dtauHalf": 3.9999999999998326,
+    "stepRatio": 2,
+    "err": 0.00006420508829462285,
+    "errHalf": 0.00001605148349627555,
+    "p": 1.9999809973717355
+   }
+  },
+  {
+   "id": "B.rp1000_ra2000.shift",
+   "desc": "(1000,2000) periapsis shift/period, eta=0.002, mean over 20 periods; sim 0.0141848 ref 0.0141854",
+   "measured": 0.00004164474376117942,
+   "op": "<=",
+   "threshold": 0.0001,
+   "pass": true,
+   "extra": {
+    "sim": 0.014184766628924095,
+    "ref": 0.014185357374497116,
+    "eta": 0.002,
+    "dtau": 63.2455532033579,
+    "periods": 20,
+    "method": "cubic Hermite interpolation of the rdot (-to+) zero crossing, phi by cubic Hermite at the root"
+   }
+  },
+  {
+   "id": "B.rp1000_ra2000.p0",
+   "desc": "(1000,2000) convergence eta=0.004 -> 0.002 (dtau 126.491 -> 63.2456, step ratio 2); err 1.666e-4 -> 4.164e-5; p",
+   "measured": 1.9999758304082371,
+   "op": "in",
+   "threshold": [
+    1.8,
+    2.2
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "dtau": 126.4911064067158,
+    "dtauHalf": 63.2455532033579,
+    "stepRatio": 2,
+    "err": 0.00016657618435646825,
+    "errHalf": 0.00004164474376117942,
+    "p": 1.9999758304082371
+   }
+  },
+  {
+   "id": "B.rp1000_ra2000.p1",
+   "desc": "(1000,2000) convergence eta=0.008 -> 0.004 (dtau 252.982 -> 126.491, step ratio 2); err 6.663e-4 -> 1.666e-4; p",
+   "measured": 2.0000683192572146,
+   "op": "in",
+   "threshold": [
+    1.8,
+    2.2
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "dtau": 252.9822128134316,
+    "dtauHalf": 126.4911064067158,
+    "stepRatio": 2,
+    "err": 0.0006663362912340634,
+    "errHalf": 0.00016657618435646825,
+    "p": 2.0000683192572146
+   }
+  },
+  {
+   "id": "B.rp1000_ra2000.weak",
+   "desc": "(1000,2000) weak field, M/p_semi=7.500e-4: |sim-6piM/p|/(6piM/p) (sim 0.0141848, formula 0.0141372) vs 10 M/p",
+   "measured": 0.0033669891547690686,
+   "op": "<=",
+   "threshold": 0.007500000000000001,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b5.24811.defl",
+   "desc": "b=5.24811 deflection rel err, eta=0.0005 (sim 4.22966181173 ref 4.22966181184, Rs=1.000e+5, 9513 steps)",
+   "measured": 2.6329561153291776e-11,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": {
+    "sim": 4.229661811726194,
+    "ref": 4.229661811837559
+   }
+  },
+  {
+   "id": "C.b5.24811.rmin",
+   "desc": "b=5.24811 r_min rel err (sim 3.27294551638 ref 3.27294551636; cubic Hermite rdot zero crossing)",
+   "measured": 5.477462800037377e-12,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b5.24811.residual",
+   "desc": "b=5.24811 null constraint residual max over whole RK4 path (E section)",
+   "measured": 7.6216810640517e-13,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b5.24811.p",
+   "desc": "b=5.24811 convergence (finest pair above round-off) eta=0.004 -> 0.002 (step ratio 2); err 3.292e-8 -> 1.977e-9; p",
+   "measured": 4.057428323766531,
+   "op": "in",
+   "threshold": [
+    3.6,
+    4.4
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 3.2924850587312996e-8,
+    "errHalf": 1.977498588156052e-9,
+    "p": 4.057428323766531,
+    "rule": "ok",
+    "asserted": true
+   }
+  },
+  {
+   "id": "C.b5.5.defl",
+   "desc": "b=5.5 deflection rel err, eta=0.0005 (sim 2.55302018231 ref 2.55302018235, Rs=1.000e+5, 8233 steps)",
+   "measured": 1.2968937514773021e-11,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": {
+    "sim": 2.5530201823122285,
+    "ref": 2.5530201823453385
+   }
+  },
+  {
+   "id": "C.b5.5.rmin",
+   "desc": "b=5.5 r_min rel err (sim 3.76675088084 ref 3.76675088082; cubic Hermite rdot zero crossing)",
+   "measured": 5.3367325870821146e-12,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b5.5.residual",
+   "desc": "b=5.5 null constraint residual max over whole RK4 path (E section)",
+   "measured": 8.255618411112664e-13,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b5.5.p",
+   "desc": "b=5.5 convergence (finest pair above round-off) eta=0.008 -> 0.004 (step ratio 2); err 6.833e-8 -> 3.363e-9; p",
+   "measured": 4.344648669303577,
+   "op": "in",
+   "threshold": [
+    3.6,
+    4.4
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "stepRatio": 2,
+    "err": 6.832860633169061e-8,
+    "errHalf": 3.363047432201953e-9,
+    "p": 4.344648669303577,
+    "rule": "ok",
+    "asserted": true
+   }
+  },
+  {
+   "id": "C.b6.defl",
+   "desc": "b=6 deflection rel err, eta=0.0005 (sim 1.71938831020 ref 1.71938831023, Rs=1.000e+5, 7427 steps)",
+   "measured": 1.7644620584192406e-11,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": {
+    "sim": 1.7193883101998306,
+    "ref": 1.7193883102301686
+   }
+  },
+  {
+   "id": "C.b6.rmin",
+   "desc": "b=6 r_min rel err (sim 4.45336319386 ref 4.45336319381; cubic Hermite rdot zero crossing)",
+   "measured": 1.0030232689225134e-11,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b6.residual",
+   "desc": "b=6 null constraint residual max over whole RK4 path (E section)",
+   "measured": 9.516831767086842e-13,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b6.p",
+   "desc": "b=6 convergence (finest pair above round-off) eta=0.008 -> 0.004 (step ratio 2); err 7.809e-8 -> 5.326e-9; p",
+   "measured": 3.8739485601007124,
+   "op": "in",
+   "threshold": [
+    3.6,
+    4.4
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.008,
+    "etaHalf": 0.004,
+    "stepRatio": 2,
+    "err": 7.808747625698679e-8,
+    "errHalf": 5.326067530397582e-9,
+    "p": 3.8739485601007124,
+    "rule": "ok",
+    "asserted": true
+   }
+  },
+  {
+   "id": "C.b8.defl",
+   "desc": "b=8 deflection rel err, eta=0.0005 (sim 0.858730018083 ref 0.858730018079, Rs=1.000e+5, 6197 steps)",
+   "measured": 4.2870150685887335e-12,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": {
+    "sim": 0.8587300180827766,
+    "ref": 0.8587300180790952
+   }
+  },
+  {
+   "id": "C.b8.rmin",
+   "desc": "b=8 r_min rel err (sim 6.70052348228 ref 6.70052348227; cubic Hermite rdot zero crossing)",
+   "measured": 2.0279373214577146e-12,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b8.residual",
+   "desc": "b=8 null constraint residual max over whole RK4 path (E section)",
+   "measured": 1.4814816040598089e-12,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b8.p",
+   "desc": "b=8 convergence (finest pair above round-off) eta=0.004 -> 0.002 (step ratio 2); err 2.434e-8 -> 1.527e-9; p",
+   "measured": 3.9942670412357875,
+   "op": "in",
+   "threshold": [
+    3.6,
+    4.4
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 2.4336902046708345e-8,
+    "errHalf": 1.5271127531211458e-9,
+    "p": 3.9942670412357875,
+    "rule": "ok",
+    "asserted": true
+   }
+  },
+  {
+   "id": "C.b10.defl",
+   "desc": "b=10 deflection rel err, eta=0.0005 (sim 0.590395787610 ref 0.590395787606, Rs=1.000e+5, 5607 steps)",
+   "measured": 7.132820123569791e-12,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": {
+    "sim": 0.5903957876100385,
+    "ref": 0.5903957876058273
+   }
+  },
+  {
+   "id": "C.b10.rmin",
+   "desc": "b=10 r_min rel err (sim 8.78885066253 ref 8.78885066250; cubic Hermite rdot zero crossing)",
+   "measured": 3.836139002301292e-12,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b10.residual",
+   "desc": "b=10 null constraint residual max over whole RK4 path (E section)",
+   "measured": 2.044919789057076e-12,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b10.p",
+   "desc": "b=10 convergence (finest pair above round-off) eta=0.004 -> 0.002 (step ratio 2); err 4.388e-8 -> 2.745e-9; p",
+   "measured": 3.998556246842569,
+   "op": "in",
+   "threshold": [
+    3.6,
+    4.4
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 4.3879880135348124e-8,
+    "errHalf": 2.7452383861119856e-9,
+    "p": 3.998556246842569,
+    "rule": "ok",
+    "asserted": true
+   }
+  },
+  {
+   "id": "C.b20.defl",
+   "desc": "b=20 deflection rel err, eta=0.0005 (sim 0.236135995397 ref 0.236135995388, Rs=1.000e+5, 4403 steps)",
+   "measured": 3.6869912330123135e-11,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": {
+    "sim": 0.23613599539717622,
+    "ref": 0.2361359953884699
+   }
+  },
+  {
+   "id": "C.b20.rmin",
+   "desc": "b=20 r_min rel err (sim 18.9129854785 ref 18.9129854785; cubic Hermite rdot zero crossing)",
+   "measured": 1.9678663921927403e-12,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b20.residual",
+   "desc": "b=20 null constraint residual max over whole RK4 path (E section)",
+   "measured": 4.625855254403177e-12,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b20.p",
+   "desc": "b=20 convergence (finest pair above round-off) eta=0.004 -> 0.002 (step ratio 2); err 1.516e-7 -> 9.467e-9; p",
+   "measured": 4.001511171514658,
+   "op": "in",
+   "threshold": [
+    3.6,
+    4.4
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.004,
+    "etaHalf": 0.002,
+    "stepRatio": 2,
+    "err": 1.5162793090411277e-7,
+    "errHalf": 9.46682432600484e-9,
+    "p": 4.001511171514658,
+    "rule": "ok",
+    "asserted": true
+   }
+  },
+  {
+   "id": "C.b100.defl",
+   "desc": "b=100 deflection rel err, eta=0.0005 (sim 0.0412225397603 ref 0.0412225397493, Rs=1.000e+5, 3047 steps)",
+   "measured": 2.672651133126555e-10,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": {
+    "sim": 0.041222539760291,
+    "ref": 0.04122253974927365
+   }
+  },
+  {
+   "id": "C.b100.rmin",
+   "desc": "b=100 r_min rel err (sim 98.9845863750 ref 98.9845863754; cubic Hermite rdot zero crossing)",
+   "measured": 4.184240959533596e-12,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b100.residual",
+   "desc": "b=100 null constraint residual max over whole RK4 path (E section)",
+   "measured": 1.4865442210520996e-11,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b100.p",
+   "desc": "b=100 convergence (finest pair above round-off) eta=0.002 -> 0.001 (step ratio 2); err 6.866e-8 -> 4.292e-9; p",
+   "measured": 3.999625669766916,
+   "op": "in",
+   "threshold": [
+    3.6,
+    4.4
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.002,
+    "etaHalf": 0.001,
+    "stepRatio": 2,
+    "err": 6.866027710558172e-8,
+    "errHalf": 4.292380901293971e-9,
+    "p": 3.999625669766916,
+    "rule": "ok",
+    "asserted": true
+   }
+  },
+  {
+   "id": "C.b100.weak",
+   "desc": "b=100 weak field: |sim-4M/b|/(4M/b) vs 10 M/b (sim 0.0412225, 4M/b 0.04)",
+   "measured": 0.030563494007274962,
+   "op": "<=",
+   "threshold": 0.1,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b1000.defl",
+   "desc": "b=1000 deflection rel err, eta=0.0005 (sim 0.00401182382110 ref 0.00401182380993, Rs=1.000e+6, 3041 steps)",
+   "measured": 2.7863085648128204e-9,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": {
+    "sim": 0.004011823821103544,
+    "ref": 0.004011823809925365
+   }
+  },
+  {
+   "id": "C.b1000.rmin",
+   "desc": "b=1000 r_min rel err (sim 998.998495983 ref 998.998495987; cubic Hermite rdot zero crossing)",
+   "measured": 4.235210933394091e-12,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b1000.residual",
+   "desc": "b=1000 null constraint residual max over whole RK4 path (E section)",
+   "measured": 1.5379031381712593e-11,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.b1000.p",
+   "desc": "b=1000 convergence (finest pair above round-off) eta=0.001 -> 0.0005 (step ratio 2); err 4.474e-8 -> 2.786e-9; p",
+   "measured": 4.00525157468678,
+   "op": "in",
+   "threshold": [
+    3.6,
+    4.4
+   ],
+   "pass": true,
+   "extra": {
+    "eta": 0.001,
+    "etaHalf": 0.0005,
+    "stepRatio": 2,
+    "err": 4.474351245543934e-8,
+    "errHalf": 2.7863085648128204e-9,
+    "p": 4.00525157468678,
+    "rule": "ok",
+    "asserted": true
+   }
+  },
+  {
+   "id": "C.b1000.weak",
+   "desc": "b=1000 weak field: |sim-4M/b|/(4M/b) vs 10 M/b (sim 0.00401182, 4M/b 0.004)",
+   "measured": 0.00295595527588597,
+   "op": "<=",
+   "threshold": 0.01,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.capture",
+   "desc": "b=0.99 b_c (5.14419) crosses 2M (reason singularity, captured=true)",
+   "measured": true,
+   "op": "true",
+   "threshold": true,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.escape",
+   "desc": "b=1.01 b_c (5.24811) escapes to r > 1000 (esc1000=true, r_min 3.27295)",
+   "measured": true,
+   "op": "true",
+   "threshold": true,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.launch",
+   "desc": "light launch r=20, b=6: |L/E - 6|/6 (L/E=5.999999999999999, alpha=0.288594)",
+   "measured": 1.4802973661668753e-16,
+   "op": "<=",
+   "threshold": 1e-12,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.split.time",
+   "desc": "b=1000 g_tt only curved: deflection 0.0020063061 vs 2M/b=0.002",
+   "measured": 0.0031530718681569217,
+   "op": "<=",
+   "threshold": 0.01,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.split.space",
+   "desc": "b=1000 g_rr only curved: deflection 0.0020023590 vs 2M/b=0.002",
+   "measured": 0.001179519310335643,
+   "op": "<=",
+   "threshold": 0.01,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.split.full",
+   "desc": "b=1000 full metric (engine RK4 ray): 0.0040118238 vs 4M/b=0.004 (u-phi integrator gives 0.0040118233)",
+   "measured": 0.00295595527588597,
+   "op": "<=",
+   "threshold": 0.01,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "C.split.sum",
+   "desc": "b=1000 time part + space part = 0.0040086652 vs 4M/b=0.004",
+   "measured": 0.0021662955892462823,
+   "op": "<=",
+   "threshold": 0.01,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r2.tau",
+   "desc": "r0=2: tau(r0->0.05) vs (2/3)(r0^1.5-0.05^1.5)/sqrt(2M)=1.32806 (sim 1.32806287057, ref-file tau(r0->0) 1.33333; 5215 steps)",
+   "measured": 4.848636074043475e-15,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r2.TminusTau",
+   "desc": "r0=2: max |T-tau|/(1+tau/M) over every step (incl. through r=2M, crossed=true)",
+   "measured": 1.5063505798432575e-15,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r2.nan",
+   "desc": "r0=2: non-finite states",
+   "measured": 0,
+   "op": "==",
+   "threshold": 0,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r2.mono",
+   "desc": "r0=2: T strictly increasing at every step",
+   "measured": true,
+   "op": "true",
+   "threshold": true,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r2.removed",
+   "desc": "r0=2: removed at r<0.05 (reason singularity); smallest r of any state (0.05)",
+   "measured": 0.05,
+   "op": ">=",
+   "threshold": 0.04999999999995,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r2.residual",
+   "desc": "r0=2: constraint residual max over whole path",
+   "measured": 1.3997691894473974e-12,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r6.tau",
+   "desc": "r0=6: tau(r0->0.05) vs (2/3)(r0^1.5-0.05^1.5)/sqrt(2M)=6.92293 (sim 6.92293276751, ref-file tau(r0->0) 6.9282; 6767 steps)",
+   "measured": 1.2829510982233107e-16,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r6.TminusTau",
+   "desc": "r0=6: max |T-tau|/(1+tau/M) over every step (incl. through r=2M, crossed=true)",
+   "measured": 1.6969023912800607e-15,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r6.nan",
+   "desc": "r0=6: non-finite states",
+   "measured": 0,
+   "op": "==",
+   "threshold": 0,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r6.mono",
+   "desc": "r0=6: T strictly increasing at every step",
+   "measured": true,
+   "op": "true",
+   "threshold": true,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r6.removed",
+   "desc": "r0=6: removed at r<0.05 (reason singularity); smallest r of any state (0.05)",
+   "measured": 0.05,
+   "op": ">=",
+   "threshold": 0.04999999999995,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r6.residual",
+   "desc": "r0=6: constraint residual max over whole path",
+   "measured": 1.4779288903810084e-12,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r10.tau",
+   "desc": "r0=10: tau(r0->0.05) vs (2/3)(r0^1.5-0.05^1.5)/sqrt(2M)=14.9018 (sim 14.9018493872, ref-file tau(r0->0) 14.9071; 7489 steps)",
+   "measured": 7.152227055477905e-16,
+   "op": "<=",
+   "threshold": 1e-8,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r10.TminusTau",
+   "desc": "r0=10: max |T-tau|/(1+tau/M) over every step (incl. through r=2M, crossed=true)",
+   "measured": 1.3678727726607393e-15,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r10.nan",
+   "desc": "r0=10: non-finite states",
+   "measured": 0,
+   "op": "==",
+   "threshold": 0,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r10.mono",
+   "desc": "r0=10: T strictly increasing at every step",
+   "measured": true,
+   "op": "true",
+   "threshold": true,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r10.removed",
+   "desc": "r0=10: removed at r<0.05 (reason singularity); smallest r of any state (0.05)",
+   "measured": 0.05,
+   "op": ">=",
+   "threshold": 0.04999999999995,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.r10.residual",
+   "desc": "r0=10: constraint residual max over whole path",
+   "measured": 1.6271428648906294e-12,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.neverBelow",
+   "desc": "removed body: further step() returns false and leaves r unchanged (r=0.05, steps 3)",
+   "measured": true,
+   "op": "true",
+   "threshold": true,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "D.removeBeforeStep",
+   "desc": "body starting at r=0.04 < 0.05 is removed before stepping (r unchanged)",
+   "measured": true,
+   "op": "true",
+   "threshold": true,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "E.rp10.ratio",
+   "desc": "Verlet (10,20) 1000 periods (1000 found, 6721959 steps): max residual last 100 = 3.453e-9 vs 2 x first 100 = 6.905e-9 (first 3.453e-9); measured last/first",
+   "measured": 0.9999978429371308,
+   "op": "<=",
+   "threshold": 2,
+   "pass": true,
+   "extra": {
+    "first": 3.4527255694445286e-9,
+    "last": 3.4527181216984052e-9
+   }
+  },
+  {
+   "id": "E.rp10.abs",
+   "desc": "Verlet (10,20) max residual over all 1000 periods",
+   "measured": 3.4527255694445286e-9,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": {
+    "first100": 3.4527255694445286e-9,
+    "last100": 3.4527181216984052e-9
+   }
+  },
+  {
+   "id": "E.rp10.periods",
+   "desc": "Verlet (10,20) periods completed",
+   "measured": 1000,
+   "op": ">=",
+   "threshold": 1000,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "E.rp8.ratio",
+   "desc": "Verlet (8,40) 1000 periods (1000 found, 17951107 steps): max residual last 100 = 1.337e-8 vs 2 x first 100 = 2.674e-8 (first 1.337e-8); measured last/first",
+   "measured": 1.000001054529222,
+   "op": "<=",
+   "threshold": 2,
+   "pass": true,
+   "extra": {
+    "first": 1.3370120870086723e-8,
+    "last": 1.3370134969269881e-8
+   }
+  },
+  {
+   "id": "E.rp8.abs",
+   "desc": "Verlet (8,40) max residual over all 1000 periods",
+   "measured": 1.3370134969269881e-8,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": {
+    "first100": 1.3370120870086723e-8,
+    "last100": 1.3370134969269881e-8
+   }
+  },
+  {
+   "id": "E.rp8.periods",
+   "desc": "Verlet (8,40) periods completed",
+   "measured": 1000,
+   "op": ">=",
+   "threshold": 1000,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "E.rp20.ratio",
+   "desc": "Verlet (20,60) 1000 periods (1000 found, 9286896 steps): max residual last 100 = 6.004e-9 vs 2 x first 100 = 1.201e-8 (first 6.004e-9); measured last/first",
+   "measured": 1.000000113718717,
+   "op": "<=",
+   "threshold": 2,
+   "pass": true,
+   "extra": {
+    "first": 6.003614635017698e-9,
+    "last": 6.0036153177410515e-9
+   }
+  },
+  {
+   "id": "E.rp20.abs",
+   "desc": "Verlet (20,60) max residual over all 1000 periods",
+   "measured": 6.0036179348472425e-9,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": {
+    "first100": 6.003614635017698e-9,
+    "last100": 6.0036153177410515e-9
+   }
+  },
+  {
+   "id": "E.rp20.periods",
+   "desc": "Verlet (20,60) periods completed",
+   "measured": 1000,
+   "op": ">=",
+   "threshold": 1000,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "E.rp100.ratio",
+   "desc": "Verlet (100,200) 1000 periods (1000 found, 5831517 steps): max residual last 100 = 7.072e-10 vs 2 x first 100 = 1.414e-9 (first 7.072e-10); measured last/first",
+   "measured": 1.0000001580455955,
+   "op": "<=",
+   "threshold": 2,
+   "pass": true,
+   "extra": {
+    "first": 7.071522505885714e-10,
+    "last": 7.0715236235087e-10
+   }
+  },
+  {
+   "id": "E.rp100.abs",
+   "desc": "Verlet (100,200) max residual over all 1000 periods",
+   "measured": 7.071526976377657e-10,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": {
+    "first100": 7.071522505885714e-10,
+    "last100": 7.0715236235087e-10
+   }
+  },
+  {
+   "id": "E.rp100.periods",
+   "desc": "Verlet (100,200) periods completed",
+   "measured": 1000,
+   "op": ">=",
+   "threshold": 1000,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "E.rp1000.ratio",
+   "desc": "Verlet (1000,2000) 1000 periods (1000 found, 5777268 steps): max residual last 100 = 7.383e-11 vs 2 x first 100 = 1.477e-10 (first 7.383e-11); measured last/first",
+   "measured": 1,
+   "op": "<=",
+   "threshold": 2,
+   "pass": true,
+   "extra": {
+    "first": 7.382550250138028e-11,
+    "last": 7.382550250138028e-11
+   }
+  },
+  {
+   "id": "E.rp1000.abs",
+   "desc": "Verlet (1000,2000) max residual over all 1000 periods",
+   "measured": 7.382550250138028e-11,
+   "op": "<=",
+   "threshold": 0.000001,
+   "pass": true,
+   "extra": {
+    "first100": 7.382550250138028e-11,
+    "last100": 7.382550250138028e-11
+   }
+  },
+  {
+   "id": "E.rp1000.periods",
+   "desc": "Verlet (1000,2000) periods completed",
+   "measured": 1000,
+   "op": ">=",
+   "threshold": 1000,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "E.r4_inward.residual",
+   "desc": "RK4 plunge r4_inward (15946 steps, removed: singularity): residual max over the whole path",
+   "measured": 3.1446449823999467,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": false,
+   "extra": null
+  },
+  {
+   "id": "E.r5_inward.residual",
+   "desc": "RK4 plunge r5_inward (31476 steps, removed: singularity): residual max over the whole path",
+   "measured": 1.6598157718692257,
+   "op": "<=",
+   "threshold": 1e-10,
+   "pass": false,
+   "extra": null
+  },
+  {
+   "id": "E.bitwise",
+   "desc": "E and L bitwise unchanged for all 11 tracked bodies after their runs (changed: 0); E not assignable: true",
+   "measured": 0,
+   "op": "==",
+   "threshold": 0,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "F.cross",
+   "desc": "parallel rays +-b cross at x=b/tan(delta/2) in the unrolled plane (20 cases m in {.01..0.24}, b in {.3..1000}); max rel err",
+   "measured": 1.8700504618327236e-16,
+   "op": "<=",
+   "threshold": 1e-12,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "F.glue",
+   "desc": "the two edge-hit points coincide under the gluing rotation (max relative mismatch)",
+   "measured": 1.3921551373444484e-16,
+   "op": "<=",
+   "threshold": 1e-12,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "F.rest",
+   "desc": "body at rest: displacement after 1000 frames",
+   "measured": 0,
+   "op": "==",
+   "threshold": 0,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "F.clock",
+   "desc": "clock rate everywhere in cone mode (min over frames)",
+   "measured": 1,
+   "op": "==",
+   "threshold": 1,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "F.deficitLimit",
+   "desc": "deficit >= 2 pi (m = 0.25) is rejected",
+   "measured": true,
+   "op": "true",
+   "threshold": true,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "G.scan",
+   "desc": "source scan of src/*.js (excluding draw.js) for Float32Array/Float32/Float16/fround: hits 0",
+   "measured": 0,
+   "op": "==",
+   "threshold": 0,
+   "pass": true,
+   "extra": {
+    "hits": []
+   }
+  },
+  {
+   "id": "G.runtime",
+   "desc": "after 1000 Verlet steps on the (10,20) orbit r, phi, T, tau are not float32-representable (state is 64-bit)",
+   "measured": true,
+   "op": "true",
+   "threshold": true,
+   "pass": true,
+   "extra": null
+  },
+  {
+   "id": "H.baseline",
+   "desc": "baseline file for this step: none (first run; this output IS the baseline, committed)",
+   "measured": true,
+   "op": "true",
+   "threshold": true,
+   "pass": true,
+   "extra": null
+  }
+ ],
+ "summary": {
+  "total": 128,
+  "fail": 2
+ }
+}
