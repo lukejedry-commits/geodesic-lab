@@ -57,3 +57,15 @@ All asserts run headless (`node test/...`), exit non-zero on any fail, and re-ru
 
 ## H. Regression
 - Every assert above runs on every change. Baseline outputs are committed; any pass -> fail flip blocks the change.
+
+## I. Dated amendments (room rulings; thresholds unchanged unless stated)
+- 2026-10-09 (E, RK4 residual): gate stays |rdot^2 + V^2 - E^2| <= 1e-10 * E^2 on every step to the cutoff. It is evaluated in
+  double-double on the stored state. The plain double residual and its floor eps*max(rdot^2,|V^2|,E^2)/E^2 are posted beside it.
+  A smaller-normalization (divide by largest term) was NOT accepted.
+- 2026-10-09 (E, plunges with L != 0): count as gates (they are RK4 paths). Convergence p in [3.6,4.4] graded only where
+  err(eta/2) is above the floor and the step ratio is within 1.8-2.2.
+- 2026-10-09 (default step): RK4 eta = 1e-4 for plunges with L != 0, rule r32+L (h = eta*min(r^1.5/sqrt(M), r^2/|L|, r/|rdot|)).
+- 2026-10-09 (F, cone): second assert, radial distance to the crossing = b/sin(delta/2), within 1e-12 relative.
+- 2026-10-09 (shadow double-double state): test tool only. Its pass does not make the 64-bit engine rows pass.
+- 2026-10-09 (report-only plunge, r=8M, L=3.5M): E^2/Vmax - 1 >= 1% (Vmax ~ 0.8942 at r = 5.25M); runs at eta = 1e-4 and 2e-4.
+  The earlier 1e-4-margin run is void for the narrow-limitation question.
