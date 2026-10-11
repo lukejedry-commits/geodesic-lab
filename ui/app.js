@@ -35,7 +35,7 @@
     h += row('integrator', `${b.method === 'verlet' ? 'velocity Verlet (bound)' : 'RK4'}, &eta; = ${b.eta}`);
     if (r > 2) h += row('static clock rate &radic;(1&minus;2M/r)', fmt(Math.sqrt(1 - 2 / r), 5));
     if (r > 3 && massive) h += row('circular-orbit clock rate &radic;(1&minus;3M/r)', fmt(Math.sqrt(1 - 3 / r), 5));
-    h += row('constraint residual |&#7765;&sup2;+V&sup2;&minus;E&sup2;|/E&sup2;', fmt(res, 3) + (r < 1 && massive && b.L !== 0 ? ' <span class="small">(below 1M: see documented limit)</span>' : ''));
+    h += row('constraint residual |&#7765;&sup2;+V&sup2;&minus;E&sup2;|/E&sup2;', fmt(res, 3) + (r < 0.17 && massive && b.L !== 0 ? ' <span class="small">(see the documented limit: 64-bit check ~1e-9 below r = 0.1M)</span>' : ''));
     h += '</table>';
     if (bd.crossedT !== null) h += `<p class="note">Crossed r = 2M at T = ${fmt(bd.crossedT, 4)}, &tau; = ${fmt(bd.crossedTau, 4)}: a finite proper time, and nothing special happens locally. Time shown is Painlev&eacute;&ndash;Gullstrand T (regular at the horizon), never Schwarzschild t. A distant observer never sees the crossing: the light redshifts, the body reddens and fades (text only; no redshift is rendered).</p>`;
     if (bd.status === 'singularity') h += '<p class="note">reached the singularity: GR stops here (removed at r &lt; 0.05M).</p>';

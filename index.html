@@ -74,7 +74,9 @@
 
     <div class="card limit" id="limit">
       <h2>Currently documented limit</h2>
-      <p>Bodies are removed at r &lt; 0.05M (&ldquo;GR stops here&rdquo;). For plunges with angular momentum, conservation (the check |&#7765;&sup2; + V&sup2; &minus; E&sup2;| / E&sup2;) holds to only ~1e&minus;9 (not the 1e&minus;10 target) below r = 1M; measured up to 2.9e&minus;9 in the test suite. Broader wording is pending the final call. State is 64-bit; the engine is frozen.</p>
+      <p><b>Applies to every plunge with angular momentum (L &ne; 0).</b> Bodies are removed at r &lt; 0.05M (&ldquo;GR stops here&rdquo;). Measured: the 64-bit conservation check |&#7765;&sup2; + V&sup2; &minus; E&sup2;| / E&sup2; first crosses 1e&minus;10 at r = 0.10&ndash;0.17 M (default &eta; = 1e&minus;4 and the finer &eta; runs, all measured cases) and is about 1e&minus;9 below r = 0.1 M (0.7&ndash;2.9e&minus;9 in the test suite).</p>
+      <p><b>ESTIMATE (not a replacement for the measured table):</b> residual &sim; 1e&minus;14 &middot; 2M L&sup2; / r&sup3;, so it falls under 1e&minus;10 at roughly r &sim; (2 L&sup2; &epsilon;<sub>eff</sub> / 1e&minus;10)<sup>1/3</sup>, about 0.13&ndash;0.15 M for L = 3.5&ndash;4 M.</p>
+      <p>This comes from the engine&rsquo;s 64-bit arithmetic: shadow runs with the state held in double-double pass at &eta; = 1e&minus;4. The path differs from a high-precision run by between 1e&minus;14 and 1e&minus;9 depending on the start. The engine is frozen and the state is 64-bit.</p>
     </div>
   </section>
 </main>
@@ -90,7 +92,7 @@
   </section>
   <section class="side">
     <div class="card"><h2>2+1 gravity: no pull, only lensing</h2><div id="cone-ro"></div>
-      <p class="small">A point mass m in 2+1 gravity leaves space flat everywhere except at m. Cut a wedge of deficit angle &delta; = 8&pi;Gm and glue its edges: a cone. Geodesics are straight lines on the unrolled plane. Particles at rest stay at rest (green dots do not move), there is no horizon, no static-clock slowdown (clock rate 1 everywhere), no orbits. Two parallel rays passing either side of m cross: lensing without a pull. Range shown: &delta; &lt; &pi; so the rays meet the wedge ahead.</p></div>
+      <p class="small">A point mass m in 2+1 gravity leaves space flat everywhere except at m. Cut a wedge of deficit angle &delta; = 8&pi;Gm and glue its edges: a cone. Geodesics are straight lines on the unrolled plane. Particles at rest stay at rest (green dots do not move), there is no horizon, no static-clock slowdown (clock rate 1 everywhere), no orbits. Two parallel rays passing either side of m cross: lensing without a pull. The &delta; &lt; &pi; range of the slider is a display choice (so the rays meet the wedge ahead); larger deficit angles, up to 2&pi;, are still valid 2+1 physics.</p></div>
   </section>
 </main>
 
