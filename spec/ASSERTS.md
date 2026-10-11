@@ -69,3 +69,7 @@ All asserts run headless (`node test/...`), exit non-zero on any fail, and re-ru
 - 2026-10-09 (shadow double-double state): test tool only. Its pass does not make the 64-bit engine rows pass.
 - 2026-10-09 (report-only plunge, r=8M, L=3.5M): E^2/Vmax - 1 >= 1% (Vmax ~ 0.8942 at r = 5.25M); runs at eta = 1e-4 and 2e-4.
   The earlier 1e-4-margin run is void for the narrow-limitation question.
+- 2026-10-11 (J, playback independence; NM ruling): after the same number of internal steps, the state (r, phi, rdot, E, L, T, tau) is
+  bitwise identical across three frame partitions and three playback speeds. Covers one Verlet orbit, one RK4 plunge and one light ray.
+  Any difference fails.
+- 2026-10-11 (limit card): the quoted ~1e-9 conservation figure must state it is relative to E^2 (the frozen normalization).

@@ -254,6 +254,20 @@ const etaR = GE.ETA_RK4;
   check('G.runtime', 'after 1000 Verlet steps on the (10,20) orbit r, phi, T, tau are not float32-representable (state is 64-bit)', (b.r !== f32(b.r)) && (b.phi !== f32(b.phi)) && (b.T !== f32(b.T)) && (b.par !== f32(b.par)), 'true', true);
 }
 
+// ================================ J. playback independence (ASSERTS section I, 2026-10-11 NM ruling) ===============
+// The UI's own stepping code (ui/sim.js World.advance) is run in a browser-like vm context under three frame partitions / playback speeds
+// (1x @ 60 fps, 5x @ ~30 fps jittered, 25x @ ~7 fps jittered) to the same final T. Internal step counts and the state (r, phi, rdot, E, L, T, tau) must be bitwise identical.
+{
+  const PB = require('./playback_core.js'), res = PB.runAll(); info.playback = [];
+  for (const c of res) {
+    const ref = c.runs[0], keys = Object.keys(ref.hex); let diffs = 0, stepDiffs = 0; const detail = [];
+    for (const r of c.runs.slice(1)) { if (r.steps !== ref.steps) stepDiffs++; for (const k of keys) if (r.hex[k] !== ref.hex[k]) { diffs++; detail.push(`${r.partition}:${k}`); } }
+    info.playback.push({ id: c.id, desc: c.desc, Tfinal: c.Tfinal, runs: c.runs.map((r) => ({ partition: r.partition, speed: r.speed, frames: r.frames, steps: r.steps, status: r.status, hex: r.hex })) });
+    check(`J.${c.id}.steps`, `${c.desc}, T=${c.Tfinal}: internal step counts ${c.runs.map((r) => r.steps).join(' / ')} (speeds ${c.runs.map((r) => r.speed + 'x').join(', ')}; frames ${c.runs.map((r) => r.frames).join(' / ')}); partitions with a different count`, stepDiffs, '==', 0);
+    check(`J.${c.id}.bitwise`, `${c.desc}, T=${c.Tfinal}: state r,phi,rdot,E,L,T,tau bitwise identical across the 3 partitions; differing fields ${detail.join(',') || 'none'}; r hex ${ref.hex.r}, tau hex ${ref.hex.tau}`, diffs, '==', 0, { hex: ref.hex });
+  }
+}
+
 // ================================ H. regression ===================================================
 let baselineInfo = 'none given';
 const bpath = opt('baseline', null);

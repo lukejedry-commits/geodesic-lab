@@ -6,6 +6,7 @@
 const fs = require('fs'), path = require('path');
 const GE = require('../src/engine.js'), D = require('./dd.js');
 const args = process.argv.slice(2), opt = (k, d) => { const i = args.indexOf('--' + k); return i >= 0 ? args[i + 1] : d; };
+const CURVES = args.indexOf('--curves') >= 0; // step 8: also write windowed per-step residual curves (shadow, 64-bit DD, 64-bit plain) vs T and r
 const CASE = opt('case', 'r4_inward'), ETA = +opt('eta', '2e-4'), STEP = opt('step', 'step3_shadow');
 const ref = JSON.parse(fs.readFileSync((fs.existsSync(path.join(__dirname, '..', 'spec', 'ref_values.json')) ? path.join(__dirname, '..', 'spec', 'ref_values.json') : path.join(__dirname, '..', '..', 'geodesic-lab-spec', 'ref_values.json')), 'utf8'));
 const M = 1, RABS = GE.R_CUT;
@@ -60,6 +61,7 @@ function run() {
   const E = eng.E;
   let S = { r: dd(r0d), v: dd(OFF ? OFF_V0 : 0), p: dd(0) }; let tau = 0;
   const dec = {}, lim = {}, ser = []; let n = 0, first = { shadow: null, bit64: null }, diag = null;
+  const curves = [], cw = { n: 0, sh: 0, dd: 0, pl: 0, fl: 0 };
   const win = { n: 0, dr: 0, dv: 0, dp: 0, rmax: 0 };
   let prevEng = { r: eng.r, rdot: eng.rdot, phi: eng.phi }, landed = false;
   const dk = (rr) => Math.floor(Math.log10(Math.max(rr, 1e-3)));
@@ -80,6 +82,8 @@ function run() {
     const d = dec[k] || (dec[k] = { decade: k, steps: 0, hSum: 0, ddShadowMax: 0, dd64Max: 0, floorMax: 0, dR: 0, dRrel: 0, dVrel: 0, dP: 0, dPrel: 0, cumStepsAtEnd: 0, binds: { r32: 0, r2_over_L: 0, r_over_rdot: 0 } });
     d.steps++; d.hSum += h; d.binds[R.which]++; d.cumStepsAtEnd = n;
     if (rs > d.ddShadowMax) d.ddShadowMax = rs; if (re > d.dd64Max) d.dd64Max = re; if (fl > d.floorMax) d.floorMax = fl;
+    if (CURVES) { const pl = GE.residual(eng); cw.n++; cw.sh = Math.max(cw.sh, rs); cw.dd = Math.max(cw.dd, re); cw.pl = Math.max(cw.pl, pl); cw.fl = Math.max(cw.fl, fl);
+      if (cw.n >= 40) { curves.push([eng.T, eng.r, cw.sh, cw.dd, cw.pl, cw.fl]); cw.n = 0; cw.sh = cw.dd = cw.pl = cw.fl = 0; } }
     // trajectory difference, 64-bit engine minus shadow (double-double difference, same step index)
     const dr = Math.abs(add(dd(eng.r), neg(S.r))[0]), dv = Math.abs(add(dd(eng.rdot), neg(S.v))[0]), dp = Math.abs(add(dd(eng.phi), neg(S.p))[0]);
     const drr = dr / hi(S.r), dvr = dv / Math.max(Math.abs(hi(S.v)), 1e-3), dpr = dp / Math.max(Math.abs(hi(S.p)), 1);
@@ -102,12 +106,14 @@ function run() {
     var prevRes = re;
     if (landedNow) { landed = true; break; }
   }
+  if (CURVES && cw.n > 0) curves.push([eng.T, eng.r, cw.sh, cw.dd, cw.pl, cw.fl]);
   const decades = Object.values(dec).sort((a, b) => a.decade - b.decade);
-  return { case: CASE, eta: ETA, E, L, steps: n, tauEnd: tau, engine: { steps: eng.steps, reason: eng.reason, tau: eng.par }, decades, firstExceed: first, stepDiag: diag,
+  return { case: CASE, eta: ETA, E, L, steps: n, tauEnd: tau, engine: { steps: eng.steps, reason: eng.reason, tau: eng.par }, decades, firstExceed: first, stepDiag: diag, curves,
     shadowMax: Math.max(...decades.map((d) => d.ddShadowMax)), bit64Max: Math.max(...decades.map((d) => d.dd64Max)), series: ser };
 }
 const out = run();
 const dir = path.join(__dirname, '..', 'results', STEP, 'runs'); fs.mkdirSync(dir, { recursive: true });
 const f = path.join(dir, `${CASE}_eta${ETA}.json`); if (fs.existsSync(f)) { console.error('refusing to overwrite ' + f); process.exit(2); }
+if (CURVES) { fs.writeFileSync(f.replace('.json', '_curves.json'), JSON.stringify({ case: out.case, eta: out.eta, E: out.E, L: out.L, columns: ['T', 'r', 'shadowDD', 'bit64DD', 'bit64plain', 'floor'], curves: out.curves })); delete out.curves; }
 fs.writeFileSync(f, JSON.stringify(out));
 console.log(CASE, ETA, 'steps', out.steps, 'engine steps', out.engine.steps, 'shadow max', out.shadowMax, '64-bit max', out.bit64Max);

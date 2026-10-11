@@ -1,0 +1,214 @@
+[
+ {
+  "id": "verlet_ecc10_20",
+  "browserIdenticalAcrossPartitions": true,
+  "steps": 7026,
+  "browserEqualsNode": true,
+  "runs": [
+   {
+    "partition": "1x @ 60 fps",
+    "frames": 30001,
+    "steps": 7026,
+    "status": "moving",
+    "hex": {
+     "r": "4024c6ec9749f869",
+     "phi": "402288b5c25aae5e",
+     "rdot": "3fa401c58f4998dd",
+     "E": "3fef02c3a0f8d9af",
+     "L": "4010ae600d199440",
+     "T": "407f4125cfe11c98",
+     "tau": "407bc5cfe65e9b63"
+    }
+   },
+   {
+    "partition": "5x @ ~30 fps (jittered 20-45 ms)",
+    "frames": 3086,
+    "steps": 7026,
+    "status": "moving",
+    "hex": {
+     "r": "4024c6ec9749f869",
+     "phi": "402288b5c25aae5e",
+     "rdot": "3fa401c58f4998dd",
+     "E": "3fef02c3a0f8d9af",
+     "L": "4010ae600d199440",
+     "T": "407f4125cfe11c98",
+     "tau": "407bc5cfe65e9b63"
+    }
+   },
+   {
+    "partition": "25x @ ~7 fps (jittered 90-190 ms)",
+    "frames": 139,
+    "steps": 7026,
+    "status": "moving",
+    "hex": {
+     "r": "4024c6ec9749f869",
+     "phi": "402288b5c25aae5e",
+     "rdot": "3fa401c58f4998dd",
+     "E": "3fef02c3a0f8d9af",
+     "L": "4010ae600d199440",
+     "T": "407f4125cfe11c98",
+     "tau": "407bc5cfe65e9b63"
+    }
+   }
+  ]
+ },
+ {
+  "id": "rk4_plunge_r4",
+  "browserIdenticalAcrossPartitions": true,
+  "steps": 50009,
+  "browserEqualsNode": true,
+  "runs": [
+   {
+    "partition": "1x @ 60 fps",
+    "frames": 2401,
+    "steps": 50009,
+    "status": "moving",
+    "hex": {
+     "r": "400ffc7b524df864",
+     "phi": "401400ebf0b14d10",
+     "rdot": "bf33e1a814802329",
+     "E": "3fefffffffea8607",
+     "L": "4010000000000000",
+     "T": "40440002021bd5a0",
+     "tau": "4033ffae0b459469"
+    }
+   },
+   {
+    "partition": "5x @ ~30 fps (jittered 20-45 ms)",
+    "frames": 244,
+    "steps": 50009,
+    "status": "moving",
+    "hex": {
+     "r": "400ffc7b524df864",
+     "phi": "401400ebf0b14d10",
+     "rdot": "bf33e1a814802329",
+     "E": "3fefffffffea8607",
+     "L": "4010000000000000",
+     "T": "40440002021bd5a0",
+     "tau": "4033ffae0b459469"
+    }
+   },
+   {
+    "partition": "25x @ ~7 fps (jittered 90-190 ms)",
+    "frames": 12,
+    "steps": 50009,
+    "status": "moving",
+    "hex": {
+     "r": "400ffc7b524df864",
+     "phi": "401400ebf0b14d10",
+     "rdot": "bf33e1a814802329",
+     "E": "3fefffffffea8607",
+     "L": "4010000000000000",
+     "T": "40440002021bd5a0",
+     "tau": "4033ffae0b459469"
+    }
+   }
+  ]
+ },
+ {
+  "id": "rk4_plunge_r4_removed",
+  "browserIdenticalAcrossPartitions": true,
+  "steps": 193702,
+  "browserEqualsNode": true,
+  "runs": [
+   {
+    "partition": "1x @ 60 fps",
+    "frames": 24001,
+    "steps": 193702,
+    "status": "singularity",
+    "hex": {
+     "r": "3fa999999999999a",
+     "phi": "40319bec0d22c3c4",
+     "rdot": "c07f3a3ce8a5889e",
+     "E": "3fefffffffea8607",
+     "L": "4010000000000000",
+     "T": "405d4095d84f9625",
+     "tau": "404c4f8df28f5822"
+    }
+   },
+   {
+    "partition": "5x @ ~30 fps (jittered 20-45 ms)",
+    "frames": 2460,
+    "steps": 193702,
+    "status": "singularity",
+    "hex": {
+     "r": "3fa999999999999a",
+     "phi": "40319bec0d22c3c4",
+     "rdot": "c07f3a3ce8a5889e",
+     "E": "3fefffffffea8607",
+     "L": "4010000000000000",
+     "T": "405d4095d84f9625",
+     "tau": "404c4f8df28f5822"
+    }
+   },
+   {
+    "partition": "25x @ ~7 fps (jittered 90-190 ms)",
+    "frames": 113,
+    "steps": 193702,
+    "status": "singularity",
+    "hex": {
+     "r": "3fa999999999999a",
+     "phi": "40319bec0d22c3c4",
+     "rdot": "c07f3a3ce8a5889e",
+     "E": "3fefffffffea8607",
+     "L": "4010000000000000",
+     "T": "405d4095d84f9625",
+     "tau": "404c4f8df28f5822"
+    }
+   }
+  ]
+ },
+ {
+  "id": "light_b6",
+  "browserIdenticalAcrossPartitions": true,
+  "steps": 10458,
+  "browserEqualsNode": true,
+  "runs": [
+   {
+    "partition": "1x @ 60 fps",
+    "frames": 3601,
+    "steps": 10458,
+    "status": "moving",
+    "hex": {
+     "r": "4027f3dd95c95909",
+     "phi": "401d52a0dff84564",
+     "rdot": "3fec757754cb3843",
+     "E": "3ff0000000000000",
+     "L": "4018000000000000",
+     "T": "404e00113a8ef1a6",
+     "tau": "404b364a88b6f8bf"
+    }
+   },
+   {
+    "partition": "5x @ ~30 fps (jittered 20-45 ms)",
+    "frames": 367,
+    "steps": 10458,
+    "status": "moving",
+    "hex": {
+     "r": "4027f3dd95c95909",
+     "phi": "401d52a0dff84564",
+     "rdot": "3fec757754cb3843",
+     "E": "3ff0000000000000",
+     "L": "4018000000000000",
+     "T": "404e00113a8ef1a6",
+     "tau": "404b364a88b6f8bf"
+    }
+   },
+   {
+    "partition": "25x @ ~7 fps (jittered 90-190 ms)",
+    "frames": 17,
+    "steps": 10458,
+    "status": "moving",
+    "hex": {
+     "r": "4027f3dd95c95909",
+     "phi": "401d52a0dff84564",
+     "rdot": "3fec757754cb3843",
+     "E": "3ff0000000000000",
+     "L": "4018000000000000",
+     "T": "404e00113a8ef1a6",
+     "tau": "404b364a88b6f8bf"
+    }
+   }
+  ]
+ }
+]

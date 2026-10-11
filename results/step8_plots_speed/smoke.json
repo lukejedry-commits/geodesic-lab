@@ -1,0 +1,256 @@
+{
+ "pass": 50,
+ "fail": 0,
+ "results": [
+  {
+   "id": "scan.float32.outside_draw",
+   "ok": true,
+   "detail": "typed-array/Float32 hits outside ui/draw.js: 0 ; Float32Array mentions in draw.js: 3 (draw copy of screen coordinates only)"
+  },
+  {
+   "id": "desktop.load",
+   "ok": true,
+   "detail": "GLApp ready, initial preset body count > 0"
+  },
+  {
+   "id": "desktop.no_hscroll",
+   "ok": true,
+   "detail": "scrollWidth 1280 vs innerWidth 1280"
+  },
+  {
+   "id": "desktop.touch_targets",
+   "ok": true,
+   "detail": "controls under 40px tall: 0 "
+  },
+  {
+   "id": "desktop.preset.circ6",
+   "ok": true,
+   "detail": "bodies 1, T=100.00, steps 68042, rk4 eta=0.0001 "
+  },
+  {
+   "id": "desktop.preset.circ8.circular_stays",
+   "ok": true,
+   "detail": "|r-8|/8 = 0.00e+0"
+  },
+  {
+   "id": "desktop.preset.circ8",
+   "ok": true,
+   "detail": "bodies 1, T=150.00, steps 2621, verlet eta=0.002 |r-8|/8 = 0.00e+0"
+  },
+  {
+   "id": "desktop.preset.circ10",
+   "ok": true,
+   "detail": "bodies 1, T=200.00, steps 2646, verlet eta=0.002 "
+  },
+  {
+   "id": "desktop.preset.ecc",
+   "ok": true,
+   "detail": "bodies 1, T=500.00, steps 7026, verlet eta=0.002 "
+  },
+  {
+   "id": "desktop.preset.lightb6",
+   "ok": true,
+   "detail": "bodies 1, T=60.00, steps 10458, rk4 eta=0.0005 moving r=11.98"
+  },
+  {
+   "id": "desktop.preset.lightb1000",
+   "ok": true,
+   "detail": "bodies 1, T=3200.00, steps 3413, rk4 eta=0.0005 "
+  },
+  {
+   "id": "desktop.preset.infall6.tau",
+   "ok": true,
+   "detail": "removed=singularity, tau=6.92293 expected 6.92293"
+  },
+  {
+   "id": "desktop.preset.infall6",
+   "ok": true,
+   "detail": "bodies 1, T=40.00, steps 9572, rk4 eta=0.0005 removed=singularity, tau=6.92293 expected 6.92293"
+  },
+  {
+   "id": "desktop.preset.photon.fate",
+   "ok": true,
+   "detail": "b below b_crit (falls in): singularity r=0.050 | b above b_crit (bounces): moving r=6.622"
+  },
+  {
+   "id": "desktop.preset.photon",
+   "ok": true,
+   "detail": "bodies 2, T=40.00, steps 20058/12810, rk4 eta=0.0005; rk4 eta=0.0005 b below b_crit (falls in): singularity r=0.050 | b above b_crit (bounces): moving r=6.622"
+  },
+  {
+   "id": "desktop.drag_launch",
+   "ok": true,
+   "detail": "bodies 1 -> 2; launched massive at r=3.800, v=0.1935c, alpha=90.58deg, E=0.70150197, L=0.74948440"
+  },
+  {
+   "id": "desktop.EL_roundtrip",
+   "ok": true,
+   "detail": "max |recovered - commanded| over 125 massive + 16 light launches = 2.22e-16"
+  },
+  {
+   "id": "desktop.ghost_default_off",
+   "ok": true,
+   "detail": "ghost checkbox checked at load: false"
+  },
+  {
+   "id": "desktop.ghost_on",
+   "ok": true,
+   "detail": "ghostOn true, ghost path points 165"
+  },
+  {
+   "id": "desktop.text.limit_note",
+   "ok": true,
+   "detail": "/Currently documented limit[\\s\\S]*0\\.05M[\\s\\S]*1e.?9/i"
+  },
+  {
+   "id": "desktop.text.caption",
+   "ok": true,
+   "detail": "/slowed time, not curved space/i"
+  },
+  {
+   "id": "desktop.text.caption2",
+   "ok": true,
+   "detail": "/g.{0,3}tt/i"
+  },
+  {
+   "id": "desktop.text.gr_stops_here",
+   "ok": true,
+   "detail": "label + distant-observer text after a plunge"
+  },
+  {
+   "id": "desktop.cone",
+   "ok": true,
+   "detail": "delta=115.200deg x=1.903858 (b/tan) radial=3.553122 (b/sin) rest displacement=0 clock=1"
+  },
+  {
+   "id": "desktop.console_errors",
+   "ok": true,
+   "detail": "console errors/warnings: 0, page errors: 0 "
+  },
+  {
+   "id": "phone.load",
+   "ok": true,
+   "detail": "GLApp ready, initial preset body count > 0"
+  },
+  {
+   "id": "phone.layout_viewport",
+   "ok": true,
+   "detail": "innerWidth 390 must equal device width 390 (page must not force a wider layout)"
+  },
+  {
+   "id": "phone.no_hscroll",
+   "ok": true,
+   "detail": "scrollWidth 390 vs innerWidth 390"
+  },
+  {
+   "id": "phone.touch_targets",
+   "ok": true,
+   "detail": "controls under 40px tall: 0 "
+  },
+  {
+   "id": "phone.preset.circ6",
+   "ok": true,
+   "detail": "bodies 1, T=100.00, steps 68042, rk4 eta=0.0001 "
+  },
+  {
+   "id": "phone.preset.circ8.circular_stays",
+   "ok": true,
+   "detail": "|r-8|/8 = 0.00e+0"
+  },
+  {
+   "id": "phone.preset.circ8",
+   "ok": true,
+   "detail": "bodies 1, T=150.00, steps 2621, verlet eta=0.002 |r-8|/8 = 0.00e+0"
+  },
+  {
+   "id": "phone.preset.circ10",
+   "ok": true,
+   "detail": "bodies 1, T=200.00, steps 2646, verlet eta=0.002 "
+  },
+  {
+   "id": "phone.preset.ecc",
+   "ok": true,
+   "detail": "bodies 1, T=500.00, steps 7026, verlet eta=0.002 "
+  },
+  {
+   "id": "phone.preset.lightb6",
+   "ok": true,
+   "detail": "bodies 1, T=60.00, steps 10458, rk4 eta=0.0005 moving r=11.98"
+  },
+  {
+   "id": "phone.preset.lightb1000",
+   "ok": true,
+   "detail": "bodies 1, T=3200.00, steps 3413, rk4 eta=0.0005 "
+  },
+  {
+   "id": "phone.preset.infall6.tau",
+   "ok": true,
+   "detail": "removed=singularity, tau=6.92293 expected 6.92293"
+  },
+  {
+   "id": "phone.preset.infall6",
+   "ok": true,
+   "detail": "bodies 1, T=40.00, steps 9572, rk4 eta=0.0005 removed=singularity, tau=6.92293 expected 6.92293"
+  },
+  {
+   "id": "phone.preset.photon.fate",
+   "ok": true,
+   "detail": "b below b_crit (falls in): singularity r=0.050 | b above b_crit (bounces): moving r=6.622"
+  },
+  {
+   "id": "phone.preset.photon",
+   "ok": true,
+   "detail": "bodies 2, T=40.00, steps 20058/12810, rk4 eta=0.0005; rk4 eta=0.0005 b below b_crit (falls in): singularity r=0.050 | b above b_crit (bounces): moving r=6.622"
+  },
+  {
+   "id": "phone.drag_launch",
+   "ok": true,
+   "detail": "bodies 1 -> 2; launched massive at r=3.840, v=0.3663c, alpha=91.02deg, E=0.74391327, L=1.51137738"
+  },
+  {
+   "id": "phone.EL_roundtrip",
+   "ok": true,
+   "detail": "max |recovered - commanded| over 125 massive + 16 light launches = 2.22e-16"
+  },
+  {
+   "id": "phone.ghost_default_off",
+   "ok": true,
+   "detail": "ghost checkbox checked at load: false"
+  },
+  {
+   "id": "phone.ghost_on",
+   "ok": true,
+   "detail": "ghostOn true, ghost path points 163"
+  },
+  {
+   "id": "phone.text.limit_note",
+   "ok": true,
+   "detail": "/Currently documented limit[\\s\\S]*0\\.05M[\\s\\S]*1e.?9/i"
+  },
+  {
+   "id": "phone.text.caption",
+   "ok": true,
+   "detail": "/slowed time, not curved space/i"
+  },
+  {
+   "id": "phone.text.caption2",
+   "ok": true,
+   "detail": "/g.{0,3}tt/i"
+  },
+  {
+   "id": "phone.text.gr_stops_here",
+   "ok": true,
+   "detail": "label + distant-observer text after a plunge"
+  },
+  {
+   "id": "phone.cone",
+   "ok": true,
+   "detail": "delta=115.200deg x=1.903858 (b/tan) radial=3.553122 (b/sin) rest displacement=0 clock=1"
+  },
+  {
+   "id": "phone.console_errors",
+   "ok": true,
+   "detail": "console errors/warnings: 0, page errors: 0 "
+  }
+ ]
+}

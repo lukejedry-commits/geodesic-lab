@@ -32,14 +32,14 @@ for b in ["5.248113946933699", "5.5", "6", "8", "10", "20", "100", "1000"]: line
 for r0 in [2, 6, 10]:
     rec = S(f"D_infall_r{r0}"); ax.plot([p[1] for p in rec], [max(p[2], 1e-18) for p in rec], lw=1, ls=":", label=f"infall r0={r0}")
 HAS_PL = "plunge" in A["info"]
-for n, lab in [("E_rk4_r4_inward", "plunge r=4-1e-4 (L=4)" + (": double-double" if HAS_PL else "")), ("E_rk4_r5_inward", "plunge r=5-1e-4" + (": double-double" if HAS_PL else ""))]: line(ax, S(n), lab, ls="--")
+for n, lab in [("E_rk4_r4_inward", "plunge r=4-1e-4 (L=4), eta 5e-4 run" + (": double-double" if HAS_PL else "")), ("E_rk4_r5_inward", "plunge r=5-1e-4, eta 5e-4 run" + (": double-double" if HAS_PL else ""))]: line(ax, S(n), lab, ls="--")
 if HAS_PL:
-    for n, lab in [("E_rk4_r4_inward_plain", "r=4 plunge: plain double"), ("E_rk4_r5_inward_plain", "r=5 plunge: plain double")]: line(ax, S(n), lab, ls=":")
+    for n, lab in [("E_rk4_r4_inward_plain", "r=4 plunge (eta 5e-4): plain double"), ("E_rk4_r5_inward_plain", "r=5 plunge (eta 5e-4): plain double")]: line(ax, S(n), lab, ls=":")
 ax.axhline(1e-10, color="k", ls="--", lw=.8, label="limit 1e-10"); ax.set_yscale("log"); ax.set_xscale("symlog", linthresh=1); ax.set_xlim(left=0); ax.set_xlabel("T (M)"); ax.set_ylabel("constraint residual")
-ax.set_title("E: RK4 paths (light, infall, plunges), residual vs T"); ax.legend(fontsize=6, ncol=2); ax.grid(alpha=.3); fig.tight_layout(); fig.savefig(out("residual_vs_T_rk4.png"), dpi=110)
+ax.set_title("E: RK4 paths (light, infall, plunges at eta 5e-4), residual vs T"); ax.legend(fontsize=6, ncol=3, loc="upper center", bbox_to_anchor=(0.5, -0.14)); ax.grid(alpha=.3); fig.set_size_inches(9, 6); fig.tight_layout(); fig.savefig(out("residual_vs_T_rk4.png"), dpi=110)
 # 4 convergence
 NP = 3 if "plunge" in A["info"] else 2
-fig, axs = plt.subplots(1, NP, figsize=(6.5 * NP, 5))
+fig, axs = plt.subplots(1, NP, figsize=(7.5 * NP, 6.5))
 for row in CV["verlet"]:
     pts = {}
     for pr in row["pairs"]: pts[pr["eta"]] = pr["err"]; pts[pr["etaHalf"]] = pr["errHalf"]
@@ -65,7 +65,7 @@ if NP == 3:
             ax.loglog(xs, ys, mk[dec] + "-", color=col[case], alpha=.4 + .3 * (dec + 2) / 2, label=f"{case} r in 1e{dec} decade: double-double")
             ax.loglog(xs, fl, mk[dec] + ":", color="gray", ms=3)
     ax.loglog([5e-5, 2e-4], [1e-9 * (x / 2e-4) ** 4 for x in [5e-5, 2e-4]], "k--", lw=.8, label="slope 4 (expected)"); ax.axhline(1e-10, color="r", ls="--", lw=.8, label="gate 1e-10")
-    ax.set_xlabel("eta"); ax.set_ylabel("max DD residual per decade of r (gray dotted: round-off floor)"); ax.set_title("plunges: DD residual vs eta (does NOT fall as eta^4)"); ax.legend(fontsize=5); ax.grid(alpha=.3, which="both")
+    ax.set_xlabel("eta"); ax.set_ylabel("max DD residual per decade of r (gray dotted: round-off floor)"); ax.set_title("plunges, 64-bit state: DD residual vs eta (does NOT fall as eta^4)"); ax.set_xticks([5e-5, 1e-4, 2e-4, 5e-4]); ax.set_xticklabels(["5e-5", "1e-4", "2e-4", "5e-4"]); ax.minorticks_off(); ax.legend(fontsize=6, ncol=2, loc="upper center", bbox_to_anchor=(0.5, -0.12)); ax.grid(alpha=.3, which="both")
 fig.tight_layout(); fig.savefig(out("convergence.png"), dpi=110)
 # 5 infall check
 fig, axs = plt.subplots(1, 2, figsize=(13, 5))
