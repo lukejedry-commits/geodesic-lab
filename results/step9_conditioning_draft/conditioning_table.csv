@@ -1,0 +1,10 @@
+case,eta,decade,steps,max_kappa,max_residual_64bit_DD,max_residual_shadow_DD,diff_64_vs_shadow_rel_r,diff_64_vs_shadow_rel_rdot,ratio_res_over_kappa_diff,pass_1e-10
+"r=4-1e-4, L=4 (near-peak start, rMax=4)",0.0001,"[10,1)M",163749,18,2.054e-13,5.157e-15,3.98e-11,7.42e-11,0.000154,PASS
+"r=4-1e-4, L=4 (near-peak start, rMax=4)",0.0001,"[1,0.1)M",23023,3.043e+04,2.040e-10,8.483e-12,3.98e-11,7.29e-11,9.19e-05,FAIL
+"r=4-1e-4, L=4 (near-peak start, rMax=4)",0.0001,"[0.1,0.05]M",6930,2.496e+05,1.232e-09,6.765e-11,3.98e-11,6.07e-11,8.13e-05,FAIL
+"r=5-1e-4, L=sqrt(12.5) (near-peak start, rMax=5)",0.0001,"[10,1)M",257465,16,1.322e-13,4.439e-15,3.03e-10,5.57e-10,1.48e-05,PASS
+"r=5-1e-4, L=sqrt(12.5) (near-peak start, rMax=5)",0.0001,"[1,0.1)M",23023,2.642e+04,1.969e-10,7.361e-12,3.03e-10,5.46e-10,1.36e-05,FAIL
+"r=5-1e-4, L=sqrt(12.5) (near-peak start, rMax=5)",0.0001,"[0.1,0.05]M",6930,2.167e+05,2.903e-09,5.872e-11,3.03e-10,4.62e-10,2.9e-05,FAIL
+"r=8, L=3.5, E^2=Vmax(1+1e-2) (off-peak)",0.0001,"[10,1)M",75036,15.68,1.542e-13,4.441e-15,3.81e-14,7.27e-14,0.135,PASS
+"r=8, L=3.5, E^2=Vmax(1+1e-2) (off-peak)",0.0001,"[1,0.1)M",23023,2.58e+04,1.221e-10,7.189e-12,3.96e-14,6.89e-14,0.0687,FAIL
+"r=8, L=3.5, E^2=Vmax(1+1e-2) (off-peak)",0.0001,"[0.1,0.05]M",6930,2.116e+05,1.918e-09,6.581e-11,3.80e-14,5.44e-14,0.167,FAIL
