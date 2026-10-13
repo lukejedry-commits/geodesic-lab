@@ -55,3 +55,11 @@ node test/shadow_dd.js --case r4_inward --eta 5e-4 --step my_shadow             
 - ESTIMATE (not a replacement for the measured table): residual ~ 1e-14 * 2 M L^2 / r^3, so it falls under 1e-10 at roughly r ~ (2 L^2 eps_eff / 1e-10)^(1/3), about 0.13-0.15 M for L = 3.5-4 M.
 - This comes from the engine's 64-bit arithmetic: shadow double-double runs pass at eta 1e-4. The path differs from a high-precision run by between 1e-14 and 1e-9 depending on the start (no 1e-12 claim is made).
 - The 2+1 cone slider is limited to delta < pi as a display choice; larger deficit angles up to 2 pi are valid 2+1 physics (the engine accepts them, `0.25` is rejected because delta = 2 pi).
+
+### Why runs near the photon sphere drift: the e^(2π) factor
+
+Light can circle a black hole at r = 3M, but that orbit is unstable, like a pencil balanced on its tip.
+A tiny radial offset grows exponentially, as e^(λt), with λ = 1/(3√3 M) in coordinate time.
+One orbit takes T = 2π·3√3 M, so per orbit the offset grows by e^(λT) = e^(2π) ≈ 535, for any black-hole mass.
+The motion is not chaotic (Schwarzschild geodesics are integrable). This is the local instability of an unstable circular orbit.
+Orbits that start below the peak grow more slowly than this. Last-digit differences between devices therefore stay invisible on ordinary orbits, but they can grow into visible drift on long runs near r = 3M.
